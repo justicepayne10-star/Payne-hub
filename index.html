@@ -5,160 +5,155 @@
 </head>
 <body style="font-family: sans-serif; background-color: #0f172a; color: #f8fafc; margin: 0; padding: 0;">
 
-    <header style="background-color: #dc2626; padding: 35px 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5); position: sticky; top: 0; z-index: 100;">
-        <h1 style="margin: 0; font-size: 42px; letter-spacing: 3px; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.6);">🎮 PAYNE HUB 🎧</h1>
-        <p style="margin: 5px 0 20px 0; color: #fecaca; font-size: 16px;">The Vault: 1000+ Games, Movies, and Global Tracks</p>
+    <header style="background-color: #dc2626; padding: 35px 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+        <h1 style="margin: 0; font-size: 42px; letter-spacing: 3px; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">🎮 PAYNE HUB 🎧</h1>
+        <p style="margin: 5px 0 20px 0; color: #fecaca; font-size: 16px;">The Vault: Real Play Store Games, Global Music, and Movies</p>
         
         <div style="margin-top: 15px;">
-            <input type="text" id="storeSearchInput" onkeyup="browseCatalog()" placeholder="Search from 1,000+ items... (e.g., dls, efootball, mortal kombat, shatta)" style="padding: 14px 25px; width: 75%; max-width: 550px; border: 2px solid #ef4444; border-radius: 30px; font-size: 16px; outline: none; color: #1e293b; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
+            <input type="text" id="storeSearchInput" onkeyup="filterCatalog()" placeholder="Search from thousands of items... (e.g., dls, afrobeats, reggae)" style="width: 80%; max-width: 600px; padding: 14px 25px; font-size: 16px; border-radius: 50px; border: none; outline: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); text-align: center;">
         </div>
     </header>
 
     <main style="padding: 25px; max-width: 1100px; margin: auto;">
-
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #334155; padding-bottom: 10px; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #334155; padding-bottom: 15px; margin-bottom: 25px;">
             <h2 style="color: #f87171; margin: 0;">📦 Active Content Database</h2>
-            <span id="catalogCounter" style="background-color: #10b981; color: white; padding: 5px 12px; border-radius: 15px; font-size: 14px; font-weight: bold;">Loading Database...</span>
+            <span id="catalogCounter" style="background-color: #10b981; color: white; padding: 6px 14px; font-weight: bold; border-radius: 20px; font-size: 14px;">0 Items Loaded</span>
         </div>
 
-        <div id="catalogGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
-            </div>
-
-        <div id="emptyCatalogState" style="display: none; text-align: center; padding: 40px; background-color: #1e293b; border-radius: 12px; margin-top: 20px;">
-            <h3 style="color: #94a3b8; margin: 0;">❌ No listings match your search keywords.</h3>
-            <p style="color: #64748b; margin: 5px 0 0 0;">Check your spelling or look for: dls, mortal kombat, or efootball</p>
-        </div>
-
+        <div id="catalogGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;"></div>
     </main>
 
-    <footer style="background-color: #0f172a; padding: 25px; text-align: center; margin-top: 60px; border-top: 2px solid #dc2626;">
-        <p style="margin: 0; color: #64748b; font-size: 14px;">© 2026 PAYNE HUB System Ecosystem. Built for IT Project.</p>
+    <footer style="text-align: center; padding: 40px; margin-top: 50px; border-top: 1px solid #334155; color: #64748b; font-size: 14px;">
+        &copy; 2026 PAYNE HUB System Ecosystem. Built for Premium Mobile Access.
     </footer>
 
     <script>
-        // PREMIUM FIXED DATABASE LISTING
-        const premiumContent = [
-            { title: "DLS 2026 Mobile", category: "GAME", desc: "Build your ultimate football squad with real licensed players.", size: "520 MB", icon: "⚽", color: "#eab308", file: "DLS_2026.apk" },
-            { title: "eFootball Mobile", category: "GAME", desc: "High-end authentic match simulation by Konami.", size: "2.7 GB", icon: "🎮", color: "#3b82f6", file: "eFootball.apk" },
-            { title: "Mortal Kombat II (2026)", category: "MOVIE", desc: "The ultimate brutal tournament action sequel.", size: "1.8 GB", icon: "🐉", color: "#10b981", file: "Mortal_Kombat_2.mp4" },
-            { title: "Shatta Wale - 2026 Single", category: "MUSIC", desc: "Latest premium Shatta track release direct stream format.", size: "8.4 MB", icon: "🎵", color: "#a855f7", file: "Shatta_2026.mp3" }
+        // 1. MASTER SEED DATA
+        const realGamesBase = [
+            { title: "DLS 2026 Mobile", size: "520 MB", desc: "Build your ultimate football squad with real licensed players.", cat: "GAME", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=150&h=150&fit=crop" },
+            { title: "eFootball Mobile", size: "2.7 GB", desc: "High-end authentic match simulation by Konami.", cat: "GAME", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=150&h=150&fit=crop" },
+            { title: "Garena Free Fire", size: "410 MB", desc: "Ultimate survival battle royale shooter on mobile devices.", cat: "GAME", img: "https://images.unsplash.com/photo-1612287230202-1bf1d85d1bdf?w=150&h=150&fit=crop" },
+            { title: "PUBG Mobile", size: "2.1 GB", desc: "The original battle royale smash hit simulation combat.", cat: "GAME", img: "https://images.unsplash.com/photo-1612287230202-1bf1d85d1bdf?w=150&h=150&fit=crop" },
+            { title: "Call of Duty: Mobile", size: "2.4 GB", desc: "Fast-paced multiplayer arena and signature FPS combat modes.", cat: "GAME", img: "https://images.unsplash.com/photo-1612287230202-1bf1d85d1bdf?w=150&h=150&fit=crop" },
+            { title: "Asphalt 9: Legends", size: "2.9 GB", desc: "Tear up the asphalt with real hypercars from top global makers.", cat: "GAME", img: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=150&h=150&fit=crop" },
+            { title: "CarX Street", size: "1.9 GB", desc: "Dynamic open-world night street high speed racing with deep tuning.", cat: "GAME", img: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=150&h=150&fit=crop" },
+            { title: "Minecraft Mobile", size: "650 MB", desc: "Explore infinite worlds and build everything from scratch.", cat: "GAME", img: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=150&h=150&fit=crop" },
+            { title: "Roblox", size: "160 MB", desc: "The ultimate virtual universe to play, create, and share custom games.", cat: "GAME", img: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=150&h=150&fit=crop" },
+            { title: "Mortal Kombat Mobile", size: "1.8 GB", desc: "Visceral hand-to-hand combat team fighting tournament action.", cat: "GAME", img: "https://images.unsplash.com/photo-1612287230202-1bf1d85d1bdf?w=150&h=150&fit=crop" }
         ];
 
-        // AUTOMATION LOGIC: Generates 1,000 extra simulated data tracks to create a massive database grid
-        function generateMegaDatabase() {
-            let fullLibrary = [...premiumContent];
-            
-            // Add 500 simulated games
-            for(let i = 1; i <= 500; i++) {
-                fullLibrary.push({
-                    title: "Arcade Game Challenge Part " + i,
-                    category: "GAME",
-                    desc: "Classic catalog retro gaming module number " + i + " for mobile device simulation.",
-                    size: (Math.random() * 100 + 10).toFixed(1) + " MB",
-                    icon: "🕹️",
-                    color: "#eab308",
-                    file: "Arcade_Game_" + i + ".apk"
-                });
-            }
-            
-            // Add 500 simulated movies
-            for(let i = 1; i <= 500; i++) {
-                fullLibrary.push({
-                    title: "Action Movie Reel Vol " + i,
-                    category: "MOVIE",
-                    desc: "Full length classic archive entertainment layout production number " + i + ".",
-                    size: (Math.random() * 2 + 0.5).toFixed(1) + " GB",
-                    icon: "🎬",
-                    color: "#10b981",
-                    file: "Movie_Reel_" + i + ".mp4"
-                });
-            }
+        const musicNations = [
+            { country: "Ghana", genres: ["Afrobeats", "Hiplife", "Highlife"], artists: ["Shatta Wale", "Stonebwoy", "Sarkodie", "Black Sherif", "King Promise"] },
+            { country: "Jamaica", genres: ["Reggae", "Dancehall"], artists: ["Vybz Kartel", "Chronixx", "Popcaan", "Bob Marley", "Spice"] },
+            { country: "Nigeria", genres: ["Afrobeats"], artists: ["Burna Boy", "Wizkid", "Davido", "Rema", "Asake"] },
+            { country: "USA", genres: ["Hip Hop", "R&B"], artists: ["Drake", "Kendrick Lamar", "Beyonce", "Future"] },
+            { country: "UK", genres: ["Drill", "Grime"], artists: ["Central Cee", "Stormzy", "Dave", "J Hus"] },
+            { country: "South Africa", genres: ["Amapiano"], artists: ["Kabza De Small", "DJ Maphorisa", "Mellow & Sleazy"] },
+            { country: "Ivory Coast", genres: ["Coupe Decale"], artists: ["DJ Arafat", "Serge Beynaud"] }
+        ];
 
-            // Add 500 simulated music files
-            for(let i = 1; i <= 500; i++) {
-                fullLibrary.push({
-                    title: "Global Music Hit Single Track " + i,
-                    category: "MUSIC",
-                    desc: "High quality audio masterpiece studio tracking record mix version " + i + ".",
-                    size: (Math.random() * 5 + 3).toFixed(1) + " MB",
-                    icon: "🎼",
-                    color: "#a855f7",
-                    file: "Music_Track_" + i + ".mp3"
-                });
-            }
-            
-            return fullLibrary;
+        const movieTemplates = [
+            { title: "Mortal Kombat II", cat: "MOVIE", genre: "Action/Sci-Fi", size: "1.8 GB", desc: "The ultimate tournament continues with new realm fighters." },
+            { title: "The Fast Saga", cat: "MOVIE", genre: "Action/Racing", size: "1.6 GB", desc: "High octane street racing and global crew heists." },
+            { title: "Gladiator Remastered", cat: "MOVIE", genre: "Epic/Drama", size: "2.1 GB", desc: "A betrayed general seeks vengeance in the Roman Colosseum." },
+            { title: "Cyber Horizon 2026", cat: "MOVIE", genre: "Sci-Fi", size: "1.4 GB", desc: "AI networks and neon underground syndicates collide." },
+            { title: "Deadly Alliance", cat: "MOVIE", genre: "Martial Arts", size: "1.5 GB", desc: "Elite martial artists band together to save earthrealm." }
+        ];
+
+        // 2. GENERATE COMPREHENSIVE ARRAY (1,050 Games + 1,050 Tracks + Movies)
+        const catalogItems = [];
+
+        // Generate 1050 Games
+        for (let i = 0; i < 1050; i++) {
+            let base = realGamesBase[i % realGamesBase.length];
+            let setNum = Math.floor(i / realGamesBase.length) + 1;
+            let titleSuffix = setNum > 1 ? ` (Pack ${setNum})` : "";
+            catalogItems.push({
+                id: catalogItems.length + 1,
+                type: "GAME",
+                title: `${base.title}${titleSuffix}`,
+                size: base.size,
+                description: base.desc,
+                image: base.img,
+                badgeColor: "#fbbf24"
+            });
         }
 
-        // Load the generated catalog array list
-        const database = generateMegaDatabase();
+        // Generate 1050 Music Tracks across 15 represented contexts
+        for (let i = 0; i < 1050; i++) {
+            let nation = musicNations[i % musicNations.length];
+            let artist = nation.artists[Math.floor((i * 3) % nation.artists.length)];
+            let genre = nation.genres[Math.floor(i % nation.genres.length)];
+            catalogItems.push({
+                id: catalogItems.length + 1,
+                type: "MUSIC",
+                title: `${artist} - Global Hit Vol. ${Math.floor(i/7) + 1}`,
+                size: `${(6.2 + (i % 5) * 0.8).toFixed(1)} MB`,
+                description: `Premium high-fidelity ${genre} record direct from ${nation.country}.`,
+                image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=150&h=150&fit=crop",
+                badgeColor: "#a855f7"
+            });
+        }
 
-        // CARD RENDER ENGINE: Loops through the data block and outputs structural code blocks
-        function renderStorefront() {
+        // Generate 500 Movies (Latest & Oldest Classics mixed)
+        for (let i = 0; i < 500; i++) {
+            let template = movieTemplates[i % movieTemplates.length];
+            let year = 1995 + ((i * 7) % 32); // Creates realistic spread of years between 1995 and 2026
+            catalogItems.push({
+                id: catalogItems.length + 1,
+                type: "MOVIE",
+                title: `${template.title} (${year})`,
+                size: template.size,
+                description: template.desc,
+                image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=150&h=150&fit=crop",
+                badgeColor: "#10b981"
+            });
+        }
+
+        // 3. RENDER FUNCTION WITH MODERN CSS DESIGN
+        function renderGrid(items) {
             const grid = document.getElementById("catalogGrid");
-            grid.innerHTML = ""; 
-
-            database.forEach((item) => {
+            grid.innerHTML = "";
+            
+            items.forEach(item => {
                 const card = document.createElement("div");
-                card.className = "store-card";
-                // Set keyword search attributes inside the HTML layer for immediate access
-                card.setAttribute("data-search", `${item.title} ${item.category} ${item.desc}`);
-                card.style.cssText = `background-color: #1e293b; padding: 20px; border-radius: 12px; border-top: 5px solid ${item.color}; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 6px rgba(0,0,0,0.15);`;
+                card.style = "background-color: #1e293b; border-radius: 12px; padding: 16px; border: 1px solid #334155; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 6px rgba(0,0,0,0.15);";
                 
                 card.innerHTML = `
                     <div>
-                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
-                            <div style="width: 50px; height: 50px; background-color: ${item.color}; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: #0f172a; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">${item.icon}</div>
+                        <div style="display: flex; gap: 12px; margin-bottom: 12px; align-items: center;">
+                            <img src="${item.image}" alt="thumb" style="width: 55px; height: 55px; border-radius: 8px; object-fit: crop; background-color: #0f172a;">
                             <div>
-                                <span style="background-color: ${item.color}33; color: ${item.color}; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: bold;">${item.category}</span>
-                                <h3 style="margin: 2px 0 0 0; font-size: 17px; line-height: 1.2;">${item.title}</h3>
+                                <span style="background-color: ${item.badgeColor}; color: #000; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 4px; text-transform: uppercase;">${item.type}</span>
+                                <h3 style="margin: 4px 0 0 0; font-size: 16px; color: #fff; line-height: 1.2;">${item.title}</h3>
                             </div>
                         </div>
-                        <p style="font-size: 13px; color: #94a3b8; margin: 0 0 15px 0;">${item.desc}</p>
+                        <p style="margin: 0 0 12px 0; color: #94a3b8; font-size: 13px; line-height: 1.4;">${item.description}</p>
                     </div>
-                    <div style="border-top: 1px solid #334155; padding-top: 15px; display: flex; align-items: center; justify-content: space-between;">
-                        <span style="font-size: 12px; color: #94a3b8; font-weight: bold;">Size: ${item.size}</span>
-                        <a href="data:text/plain;charset=utf-8,Payload_Acquired" download="${item.file}" style="background-color: ${item.color}; color: ${item.color === '#eab308' ? '#0f172a' : 'white'}; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 13px;">Download Link</a>
+                    <div style="display: flex; justify-content: space-between; align-items: center; background-color: #0f172a; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155;">
+                        <span style="font-size: 12px; color: #94a3b8; font-weight: 500;">Size: ${item.size}</span>
+                        <a href="#" onclick="alert('Starting secure cloud data transfer segment...')" style="background-color: #3b82f6; color: white; text-decoration: none; padding: 6px 12px; font-size: 12px; font-weight: bold; border-radius: 4px; transition: 0.2s;">Download Link</a>
                     </div>
                 `;
                 grid.appendChild(card);
             });
 
-            document.getElementById("catalogCounter").innerText = `Total Items: ${database.length}`;
+            document.getElementById("catalogCounter").innerText = `${items.length} Items Loaded`;
         }
 
-        // SEARCH INTELLIGENCE ENGINE (Case-Insensitive Fix Included)
-        function browseCatalog() {
-            var input = document.getElementById('storeSearchInput').value.toLowerCase();
-            var items = document.getElementsByClassName('store-card');
-            var matchedCounter = 0;
-            
-            for (var i = 0; i < items.length; i++) {
-                var searchTargetData = items[i].getAttribute('data-search').toLowerCase();
-                
-                // Checks matching criteria without locking up on capital/lowercase distinctions
-                if (searchTargetData.indexOf(input) > -1) {
-                    items[i].style.display = "flex";
-                    matchedCounter++;
-                } else {
-                    items[i].style.display = "none";
-                }
-            }
-            
-            var emptyState = document.getElementById('emptyCatalogState');
-            if (matchedCounter === 0) {
-                emptyState.style.display = "block";
-                document.getElementById('catalogCounter').innerText = "0 Matches Found";
-            } else {
-                emptyState.style.display = "none";
-                document.getElementById('catalogCounter').innerText = "Displaying " + matchedCounter + " Items";
-            }
+        // 4. ACTIVE LIVE FILTER SEARCH ENGINE
+        function filterCatalog() {
+            const query = document.getElementById("storeSearchInput").value.toLowerCase();
+            const filtered = catalogItems.filter(item => 
+                item.title.toLowerCase().includes(query) || 
+                item.description.toLowerCase().includes(query) ||
+                item.type.toLowerCase().includes(query)
+            );
+            renderGrid(filtered);
         }
 
-        // Initialize grid render runtime sequence
-        renderStorefront();
+        // Initial Load
+        renderGrid(catalogItems);
     </script>
-
 </body>
-  </html>
-  
+</html>
