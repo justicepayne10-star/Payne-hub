@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PAYNE HUB - Ultimate Entertainment System</title>
 </head>
-<body id="appBody" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0f172a; color: #f8fafc; margin: 0; padding: 0; transition: background 0.3s, color 0.3s;">
+<body id="appBody" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0f172a; color: #f8fafc; margin: 0; padding: 0; transition: background 0.3s, color 0.3s; padding-bottom: 90px;">
 
     <header style="background-color: #dc2626; padding: 25px 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.4); position: relative;">
         <button onclick="toggleSettings(true)" style="position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.3); border: none; color: white; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px;">⚙️ Settings</button>
@@ -13,14 +13,14 @@
         <h1 style="margin: 0; font-size: 38px; letter-spacing: 2px; font-weight: 900; text-shadow: 2px 2px 5px rgba(0,0,0,0.6);">⚡ PAYNE HUB ⚡</h1>
         <p style="margin: 5px 0 15px 0; color: #fecaca; font-size: 14px;">The Vault Architecture: Games, Music, and Movies Ecosystem</p>
         
-        <input type="text" id="storeSearchInput" onkeyup="filterCatalog()" placeholder="🔍 Type to extract files from database..." style="width: 85%; max-width: 500px; padding: 12px 20px; font-size: 15px; border-radius: 30px; border: none; outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); text-align: center;">
+        <input type="text" id="storeSearchInput" onkeyup="filterCatalog()" placeholder="🔍 Search games, music, or movies..." style="width: 85%; max-width: 500px; padding: 12px 20px; font-size: 15px; border-radius: 30px; border: none; outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); text-align: center;">
     </header>
 
     <nav style="background-color: #1e293b; display: flex; justify-content: center; gap: 10px; padding: 12px; border-bottom: 2px solid #334155; overflow-x: auto;">
         <button id="tab-ALL" class="nav-tab" onclick="switchCategory('ALL')" style="background-color: #ef4444; color: white; border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s;">📱 All Collective</button>
         <button id="tab-GAME" class="nav-tab" onclick="switchCategory('GAME')" style="background-color: #334155; color: #cbd5e1; border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s;">🎮 Games</button>
         <button id="tab-MUSIC" class="nav-tab" onclick="switchCategory('MUSIC')" style="background-color: #334155; color: #cbd5e1; border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s;">🎵 Music Lib</button>
-        <button id="tab-MOVIE" class="nav-tab" onclick="switchCategory('MOVIE')" style="background-color: #334155; color: #cbd5e1; border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s;">🎬 Movies & Cinema</button>
+        <button id="tab-MOVIE" class="nav-tab" onclick="switchCategory('MOVIE')" style="background-color: #334155; color: #cbd5e1; border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s;">🎬 Movies</button>
     </nav>
 
     <main style="padding: 20px; max-width: 1200px; margin: auto;">
@@ -29,219 +29,12 @@
             <span id="catalogCounter" style="background-color: #10b981; color: white; padding: 5px 12px; font-weight: bold; border-radius: 15px; font-size: 13px;">0 Items Loaded</span>
         </div>
 
+        <div id="searchNoticeBanner" style="display: none; background-color: #3b82f6; color: white; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-weight: 500; font-size: 14px; text-align: center;"></div>
+
         <div id="catalogGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;"></div>
     </main>
 
-    <div id="settingsPanel" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 1000;">
-        <div style="background-color: #1e293b; border: 2px solid #475569; padding: 25px; border-radius: 15px; width: 90%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
-            <h3 style="margin-top: 0; color: #f87171; font-size: 22px; border-bottom: 1px solid #334155; padding-bottom: 10px;">⚙️ Interface Settings</h3>
-            
-            <div style="margin: 20px 0;">
-                <label style="display: block; margin-bottom: 8px; font-weight: bold; font-size: 14px;">App Theme Presets:</label>
-                <button onclick="changeTheme('#0f172a', '#1e293b', '#f8fafc')" style="background: #0f172a; color: white; border: 1px solid #fff; padding: 8px 12px; border-radius: 6px; cursor: pointer; margin-right: 5px; font-size: 12px;">Dark Onyx</button>
-                <button onclick="changeTheme('#171717', '#262626', '#f5f5f5')" style="background: #171717; color: white; border: 1px solid #fff; padding: 8px 12px; border-radius: 6px; cursor: pointer; margin-right: 5px; font-size: 12px;">Deep Matrix</button>
-                <button onclick="changeTheme('#f8fafc', '#ffffff', '#0f172a')" style="background: #f8fafc; color: black; border: 1px solid #000; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;">Classic Light</button>
-            </div>
-
-            <div style="margin: 20px 0;">
-                <label style="display: block; margin-bottom: 8px; font-weight: bold; font-size: 14px;">System Engine Profile:</label>
-                <p style="margin: 0; font-size: 13px; color: #94a3b8;">Status: Operational (v3.5)<br>Server Node: GitHub Pages Cloud</p>
-            </div>
-
-            <button onclick="toggleSettings(false)" style="width: 100%; background-color: #dc2626; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px;">Apply & Exit</button>
-        </div>
-    </div>
-
-    <script>
-        let currentActiveCategory = "ALL";
-
-        // Raw SVG Vector Assets - No external URLs, 100% bulletproof loading
-        const svgIcons = {
-            GAME: `<svg style="width:30px; height:30px; fill:#fbbf24;" viewBox="0 0 24 24"><path d="M21,6H3A2,2 0 0,0 1,8V16A2,2 0 0,0 3,18H21A2,2 0 0,0 23,16V8A2,2 0 0,0 21,6M6,15H5V13H3V11H5V9H6V11H8V13H6V15M15.5,12A1.5,1.5 0 1,1 14,10.5A1.5,1.5 0 0,1 15.5,12M18.5,15A1.5,1.5 0 1,1 17,13.5A1.5,1.5 0 0,1 18.5,15Z"/></svg>`,
-            MUSIC: `<svg style="width:30px; height:30px; fill:#a855f7;" viewBox="0 0 24 24"><path d="M21,3V15.5A3.5,3.5 0 0,1 17.5,19A3.5,3.5 0 0,1 14,15.5A3.5,3.5 0 0,1 17.5,12C18.04,12 18.55,12.12 19,12.34V6.47L9,8.6V17.5A3.5,3.5 0 0,1 5.5,21A3.5,3.5 0 0,1 2,17.5A3.5,3.5 0 0,1 5.5,14C6.04,14 6.55,14.12 7,14.34V4L21,3Z"/></svg>`,
-            MOVIE: `<svg style="width:30px; height:30px; fill:#10b981;" viewBox="0 0 24 24"><path d="M18,4l2,4h-3l-2-4h-2l2,4h-3l-2-4H8l2,4H7L5,4H4A2,2 0 0,0 2,6v12a2,2 0 0,0 2,2h16a2,2 0 0,0 2-2V4H18z"/></svg>`
-        };
-
-        const badgeColors = { GAME: "#fbbf24", MUSIC: "#a855f7", MOVIE: "#10b981" };
-
-        const rawGamesList = [
-            { title: "DLS 2026 Mobile", size: "520 MB", desc: "Build your ultimate football squad with real licensed players." },
-            { title: "eFootball Mobile", size: "2.7 GB", desc: "High-end authentic match simulation engine by Konami." },
-            { title: "Garena Free Fire", size: "410 MB", desc: "Ultimate survival battle royale shooter on mobile devices." },
-            { title: "PUBG Mobile Prime", size: "2.1 GB", desc: "The original battle royale smash hit simulation combat." },
-            { title: "Call of Duty: Mobile", size: "2.4 GB", desc: "Fast-paced multiplayer arena and signature FPS combat modes." },
-            { title: "EA Sports FC Mobile", size: "1.1 GB", desc: "World-class soccer gameplay featuring elite clubs and custom tournaments." },
-            { title: "Asphalt 9: Legends", size: "2.9 GB", desc: "Tear up the asphalt with real hypercars from top global makers." },
-            { title: "CarX Street Racing", size: "1.9 GB", desc: "Dynamic open-world night street high speed racing with deep mechanical tuning." },
-            { title: "Minecraft Pocket Edition", size: "650 MB", desc: "Explore infinite worlds and build everything from scratch." },
-            { title: "Roblox App Matrix", size: "160 MB", desc: "The ultimate virtual universe to play, create, and share custom games." },
-            { title: "Mortal Kombat Mobile", size: "1.8 GB", desc: "Visceral hand-to-hand combat team fighting tournament action." },
-            { title: "Subway Surfers World Tour", size: "144 MB", desc: "Dash as fast as you can through tracks dodging trains and inspector guards." },
-            { title: "Candy Crush Saga Premium", size: "95 MB", desc: "Match sweet colorful candies through thousands of complex logic puzzles." },
-            { title: "Score! Hero 2026 Sim", size: "190 MB", desc: "Draw strategic passing trajectories to score game-winning football goals." },
-            { title: "Need for Speed: No Limits", size: "1.3 GB", desc: "Drift through urban street layouts to build absolute tuner dominance." },
-            { title: "Mobile Legends: Bang Bang", size: "510 MB", desc: "Classic multiplayer 5v5 MOBA confrontation against global rosters." },
-            { title: "Clash of Clans Tactics", size: "220 MB", desc: "Construct fortified base networks and deploy troops to raid enemy gold vaults." }
-        ];
-
-        const rawMusicList = [
-            { country: "Ghana", artist: "Shatta Wale", track: "King of Kings", genre: "Dancehall" },
-            { country: "Ghana", artist: "Stonebwoy", track: "Into the Light", genre: "Afro-Reggae" },
-            { country: "Ghana", artist: "Sarkodie", track: "Rap Execution", genre: "Hiplife" },
-            { country: "Ghana", artist: "Black Sherif", track: "Sermon Road Single", genre: "Highlife Drill" },
-            { country: "Jamaica", artist: "Vybz Kartel", track: "Gaza Ledger", genre: "Dancehall Anthems" },
-            { country: "Jamaica", artist: "Popcaan", track: "Unruly Forever", genre: "Reggae Wave" },
-            { country: "Jamaica", artist: "Chronixx", track: "Chronology Dub", genre: "Roots Reggae" },
-            { country: "Nigeria", artist: "Burna Boy", track: "City Boys Single", genre: "Afrobeats Fusion" },
-            { country: "Nigeria", artist: "Wizkid", track: "Starboy Vibes", genre: "Afrobeats" },
-            { country: "USA", artist: "Drake", track: "Certified Records", genre: "Hip Hop" },
-            { country: "USA", artist: "Kendrick Lamar", track: "Section Block", genre: "Conscious Rap" },
-            { country: "UK", artist: "Central Cee", track: "Split Paths", genre: "UK Drill" },
-            { country: "South Africa", artist: "Kabza De Small", track: "Amapiano Groove Node", genre: "Amapiano" }
-        ];
-
-        const rawMoviesList = [
-            { title: "Mortal Kombat II: Realms", genre: "Action/Sci-Fi", size: "1.8 GB", desc: "The ultimate tournament continues with new elemental universe fighters." },
-            { title: "The Fast Saga: Turbo Drive", genre: "Action/Racing", size: "1.6 GB", desc: "High octane custom street racing setups and tactical vehicle operations." },
-            { title: "Gladiator: Empire Legacy", genre: "Epic/Drama", size: "2.2 GB", desc: "A betrayed combat general fights his way up through the arena networks." },
-            { title: "Cyber Horizon 2026", genre: "Sci-Fi Thriller", size: "1.4 GB", desc: "Advanced AI mainframes and neon underworld hackers face off." },
-            { title: "Avatar: Deep Waters", genre: "Adventure/Fantasy", size: "2.5 GB", desc: "Stunning cinematic journey across deep alien biological oceans." },
-            { title: "The Dark Knight Retold", genre: "Action/Noir", size: "1.9 GB", desc: "Tactical vigilante operations across corrupt metropolitan networks." },
-            { title: "Anime Showdown: Movie Core", genre: "Animation/Action", size: "1.2 GB", desc: "Legendary fighters crossover to settle the ultimate arena championship." }
-        ];
-
-        // MASTER CATALOG ARRAY GENERATION
-        const catalogItems = [];
-
-        // 1. Generate 1050 Games
-        for (let i = 0; i < 1050; i++) {
-            let base = rawGamesList[i % rawGamesList.length];
-            let variantId = Math.floor(i / rawGamesList.length) + 1;
-            let tag = variantId > 1 ? ` [Server v${variantId}]` : "";
-            catalogItems.push({
-                id: catalogItems.length + 1,
-                type: "GAME",
-                title: `${base.title}${tag}`,
-                size: base.size,
-                description: base.desc,
-                iconHtml: svgIcons.GAME,
-                badgeColor: badgeColors.GAME
-            });
-        }
-
-        // 2. Generate 1050 International Music Tracks
-        for (let i = 0; i < 1050; i++) {
-            let base = rawMusicList[i % rawMusicList.length];
-            let mixVolume = Math.floor(i / rawMusicList.length) + 1;
-            catalogItems.push({
-                id: catalogItems.length + 1,
-                type: "MUSIC",
-                title: `${base.artist} - ${base.track} (Vol. ${mixVolume})`,
-                size: `${(5.4 + (i % 7) * 0.6).toFixed(1)} MB`,
-                description: `High-fidelity audio stream entry (${base.genre}) sourced from regional hubs in ${base.country}.`,
-                iconHtml: svgIcons.MUSIC,
-                badgeColor: badgeColors.MUSIC
-            });
-        }
-
-        // 3. Generate 500 Movies
-        for (let i = 0; i < 500; i++) {
-            let base = rawMoviesList[i % rawMoviesList.length];
-            let yearMultiplier = 1998 + (i % 29);
-            catalogItems.push({
-                id: catalogItems.length + 1,
-                type: "MOVIE",
-                title: `${base.title} (${yearMultiplier})`,
-                size: base.size,
-                description: base.desc,
-                iconHtml: svgIcons.MOVIE,
-                badgeColor: badgeColors.MOVIE
-            });
-        }
-
-        // GRID RE-RENDER PIPELINE
-        function renderGrid(items) {
-            const grid = document.getElementById("catalogGrid");
-            grid.innerHTML = "";
-            
-            items.forEach(item => {
-                const card = document.createElement("div");
-                card.style = "background-color: #1e293b; border-radius: 12px; padding: 16px; border: 1px solid #334155; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.2);";
-                
-                card.innerHTML = `
-                    <div>
-                        <div style="display: flex; gap: 14px; margin-bottom: 12px; align-items: center;">
-                            <div style="background-color: #0f172a; padding: 8px; border-radius: 10px; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid #334155; flex-shrink: 0;">
-                                ${item.iconHtml}
-                            </div>
-                            <div>
-                                <span style="background-color: ${item.badgeColor}; color: #000; font-size: 10px; font-weight: bold; padding: 2px 7px; border-radius: 4px; text-transform: uppercase;">${item.type}</span>
-                                <h3 style="margin: 3px 0 0 0; font-size: 15px; color: #fff; line-height: 1.2;">${item.title}</h3>
-                            </div>
-                        </div>
-                        <p style="margin: 0 0 12px 0; color: #94a3b8; font-size: 13px; line-height: 1.4;">${item.description}</p>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; background-color: #0f172a; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155;">
-                        <span style="font-size: 12px; color: #94a3b8; font-weight: 500;">📦 ${item.size}</span>
-                        <a href="#" onclick="alert('Initializing secure download payload allocation sync...')" style="background-color: #ef4444; color: white; text-decoration: none; padding: 6px 12px; font-size: 12px; font-weight: bold; border-radius: 5px;">Download</a>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-
-            document.getElementById("catalogCounter").innerText = `${items.length} Items Displayed`;
-        }
-
-        // SIDEBAR BUTTON ENGINE CATEGORIES
-        function switchCategory(category) {
-            currentActiveCategory = category;
-            
-            // Reset all tab styling
-            document.querySelectorAll('.nav-tab').forEach(btn => {
-                btn.style.backgroundColor = '#334155';
-                btn.style.color = '#cbd5e1';
-            });
-            
-            // Activate the chosen tab
-            const activeTab = document.getElementById(`tab-${category}`);
-            if(activeTab) {
-                activeTab.style.backgroundColor = '#ef4444';
-                activeTab.style.color = 'white';
-            }
-
-            // Set the section header title
-            const displayTitles = { ALL: "📱 All Collective Repository", GAME: "🎮 Premium Mobile Games", MUSIC: "🎵 Global Audio Libraries", MOVIE: "🎬 Movie & Cinema Vault" };
-            document.getElementById("currentCategoryTitle").innerText = displayTitles[category];
-
-            filterCatalog();
-        }
-
-        // INSTANT LIVE FILTER
-        function filterCatalog() {
-            const query = document.getElementById("storeSearchInput").value.toLowerCase();
-            
-            const filtered = catalogItems.filter(item => {
-                const matchesCategory = (currentActiveCategory === "ALL" || item.type === currentActiveCategory);
-                const matchesSearch = item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query);
-                return matchesCategory && matchesSearch;
-            });
-
-            renderGrid(filtered);
-        }
-
-        // MODAL MANAGEMENT CONTROLS
-        function toggleSettings(show) {
-            document.getElementById("settingsPanel").style.display = show ? "flex" : "none";
-        }
-
-        function changeTheme(bg, cardBg, text) {
-            document.getElementById("appBody").style.backgroundColor = bg;
-            document.getElementById("appBody").style.color = text;
-        }
-
-        // Initial launch initialization
-        renderGrid(catalogItems);
-    </script>
-</body>
-    </html>
-    
+    <div id="bottomAudioPlayer" style="display: none; position: fixed; bottom: 0; left: 0; width: 100%; background-color: #1e293b; border-top: 3px solid #a855f7; padding: 15px 20px; box-shadow: 0 -5px 25px rgba(0,0,0,0.6); box-sizing: border-box; z-index: 999; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <div style="display: flex; align-items: center; gap: 12px; min-width: 200px;">
+            <div style="background-
+                                                                                                                                                                                                                                                            
