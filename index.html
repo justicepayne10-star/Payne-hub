@@ -1,61 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>PAYNE HUB - Premium Portal</title>
-    <style>
-        body { margin: 0; background-color: #0f172a; color: #fff; font-family: sans-serif; }
-        /* Splash Screen */
-        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0f172a; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; }
-        /* Gateway */
-        #gateway { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9998; justify-content: center; align-items: center; }
-        .card { background: #1e293b; padding: 25px; border-radius: 15px; width: 80%; max-width: 300px; text-align: center; border: 2px solid #dc2626; }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PAYNE HUB - Premium Portal</title>
+  <meta name="description" content="Payne Hub — secure portal demo">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <div id="loader"><h2>⚡ LOADING PAYNE HUB...</h2></div>
+  <div id="loader" class="loader" aria-hidden="false">
+    <h2>⚡ LOADING PAYNE HUB...</h2>
+  </div>
 
-    <div id="gateway">
-        <div class="card">
-            <h3>System Gateway</h3>
-            <input type="password" id="adminCode" placeholder="Admin Number" style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:none; box-sizing:border-box;">
-            <button onclick="checkAdmin()" style="width:100%; padding:10px; background:#dc2626; border:none; color:white; font-weight:bold; cursor:pointer;">ENTER</button>
-            <p onclick="closeGateway()" style="cursor:pointer; font-size:12px; color:#dc2626; margin-top:15px; text-decoration:underline;">Continue as Guest</p>
-        </div>
+  <div id="gateway" class="gateway" role="dialog" aria-modal="true" aria-labelledby="gatewayTitle" aria-hidden="true">
+    <div class="card" role="document">
+      <h3 id="gatewayTitle">System Gateway</h3>
+      <label for="adminCode" class="visually-hidden">Admin code</label>
+      <input id="adminCode" type="password" placeholder="Admin Number" aria-describedby="adminHelp" />
+      <div id="adminHelp" class="help">Enter your admin credential to proceed (demo only).</div>
+
+      <div class="controls">
+        <button id="enterBtn" class="btn primary">ENTER</button>
+        <button id="guestBtn" class="btn link">Continue as Guest</button>
+      </div>
+
+      <div id="status" class="status" aria-live="polite"></div>
     </div>
+  </div>
 
-    <header style="background: #dc2626; padding: 20px; text-align: center;"><h1>⚡ PAYNE HUB ⚡</h1></header>
-    <main style="padding: 20px; text-align: center;">
-        <div id="appContainer" style="background:#1e293b; padding:20px; border-radius:10px;">
-            <h3>Welcome to the Vault</h3>
-            <p>Accessing secure infrastructure.</p>
-        </div>
-    </main>
+  <header class="site-header"><h1>⚡ PAYNE HUB ⚡</h1></header>
 
-    <script>
-        // Trigger sequence
-        window.onload = function() {
-            setTimeout(function() {
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('gateway').style.display = 'flex';
-            }, 1500);
-        };
+  <main style="padding: 20px; text-align: center;">
+    <div id="appContainer" class="app-container">
+      <h3>Welcome to the Vault</h3>
+      <p>Accessing secure infrastructure.</p>
+    </div>
+  </main>
 
-        function checkAdmin() {
-            const code = document.getElementById('adminCode').value;
-            if(code === "12345") {
-                alert("Welcome, Admin.");
-                closeGateway();
-            } else {
-                alert("Proceeding as Guest.");
-                closeGateway();
-            }
-        }
-
-        function closeGateway() {
-            document.getElementById('gateway').style.display = 'none';
-        }
-    </script>
+  <script src="js/app.js" defer></script>
 </body>
 </html>

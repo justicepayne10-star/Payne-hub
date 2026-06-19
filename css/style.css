@@ -1,0 +1,47 @@
+/* style.css - moved from inline styles, with accessibility & UX improvements */
+:root{
+  --bg: #0f172a;
+  --card: #1e293b;
+  --accent: #dc2626;
+  --text: #ffffff;
+}
+
+*{box-sizing: border-box}
+html,body{height:100%;}
+body { margin: 0; background-color: var(--bg); color: var(--text); font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+
+/* Loader */
+.loader{ position: fixed; inset:0; display:flex; align-items:center; justify-content:center; background: var(--bg); z-index:9999; transition: opacity .25s ease; }
+.loader.hidden{ opacity:0; pointer-events:none; }
+
+/* Gateway */
+.gateway{ position: fixed; inset:0; display:flex; align-items:center; justify-content:center; background: rgba(0,0,0,0.85); z-index:9998; }
+.gateway[aria-hidden="true"]{ display:none; }
+
+.card { background: var(--card); padding: 25px; border-radius: 15px; width: 90%; max-width: 360px; text-align: center; border: 2px solid var(--accent); box-shadow: 0 8px 30px rgba(2,6,23,0.6); }
+.card h3{ margin-top:0; }
+
+input[type="password"]{ width:100%; padding:10px; margin:10px 0; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background:transparent; color:var(--text); }
+input[type="password"]:focus{ outline: 3px solid rgba(220,38,38,0.15); }
+
+.controls{ display:flex; gap:10px; margin-top:8px; }
+.btn{ padding:10px 12px; border-radius:6px; border:none; cursor:pointer; font-weight:600; }
+.btn.primary{ background:var(--accent); color:#fff; flex:1; }
+.btn.link{ background:transparent; color:var(--accent); flex:1; border:1px solid transparent; }
+
+.status{ margin-top:12px; font-size:0.95rem; min-height:1.2em; }
+
+.site-header{ background: var(--accent); padding: 20px; text-align: center; }
+.site-header h1{ margin:0; }
+
+.app-container{ background:var(--card); padding:20px; border-radius:10px; max-width:800px; margin: 20px auto; }
+
+/* Accessibility helpers */
+.visually-hidden{ position:absolute !important; height:1px; width:1px; overflow:hidden; clip:rect(1px,1px,1px,1px); white-space:nowrap; }
+
+/* Focus visibility */
+:focus{ outline-offset:2px; }
+
+@media (prefers-reduced-motion: no-preference){
+  .card{ transition: transform .15s ease, box-shadow .15s ease; }
+}
