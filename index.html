@@ -79,9 +79,10 @@
                 
                 const aiReply = data.candidates[0].content.parts[0].text;
                 chatLog.innerHTML += `<p style="color: #fff;">AI: ${aiReply}</p>`;
-            } catch (error) {
+                        } catch (error) {
                 document.getElementById('loading').remove();
-                chatLog.innerHTML += `<p style="color: #ef4444;">Error: Could not connect to AI.</p>`;
+                // This line will now display the exact error message on your screen
+                chatLog.innerHTML += `<p style="color: #ef4444;">Error: ${error.message}</p>`;
             }
         }
     </script>
