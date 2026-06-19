@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAYNE HUB - Premium Portal</title>
+    <title>PAYNE HUB - AI Assistant</title>
     <style>
         body { margin: 0; background-color: #0f172a; color: #fff; font-family: sans-serif; }
         #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0f172a; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; }
@@ -62,20 +62,27 @@
             if(!input) return;
 
             chatLog.innerHTML += `<p style="color: #60a5fa;">You: ${input}</p>`;
-            chatLog.innerHTML += `<p><em>AI is thinking...</em></p>`;
+            chatLog.innerHTML += `<p id="loading"><em>AI is thinking...</em></p>`;
             document.getElementById('userInput').value = '';
             
-            // NOTE: Replace YOUR_API_KEY below with your actual key from Google AI Studio
-            const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=YOUR_API_KEY', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ "contents": [{ "parts": [{ "text": input }] }] })
-            });
+            const API_KEY = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=YOUR_API_KEY_HERE";
             
-            const data = await response.json();
-            chatLog.innerHTML = chatLog.innerHTML.replace('<p><em>AI is thinking...</em></p>', '');
-            const aiReply = data.candidates[0].content.parts[0].text;
-            chatLog.innerHTML += `<p style="color: #fff;">AI: ${aiReply}</p>`;
+            try {
+                const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + API_KEY, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ "contents": [{ "parts": [{ "text": input }] }] })
+                });
+                
+                const data = await response.json();
+                document.getElementById('loading').remove();
+                
+                const aiReply = data.candidates[0].content.parts[0].text;
+                chatLog.innerHTML += `<p style="color: #fff;">AI: ${aiReply}</p>`;
+            } catch (error) {
+                document.getElementById('loading').remove();
+                chatLog.innerHTML += `<p style="color: #ef4444;">Error: Could not connect to AI.</p>`;
+            }
         }
     </script>
 </body>
