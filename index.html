@@ -2,71 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>PAYNE HUB - System Gateway</title>
-    <style>
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
+    <title>PAYNE HUB</title>
 </head>
 <body style="margin:0; background:#0f172a; color:white; font-family:sans-serif;">
 
-    <div id="loading" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#0f172a; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:9999;">
-        <div style="width:50px; height:50px; border:5px solid #1e293b; border-top:5px solid #dc2626; border-radius:50%; animation:spin 1s linear infinite;"></div>
-        <h2 style="color:#dc2626; margin-top:20px;">PAYNE HUB</h2>
+    <div id="loader" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#0f172a; display:flex; justify-content:center; align-items:center; z-index:9999;">
+        <h2 style="color:#dc2626;">LOADING PAYNE HUB...</h2>
     </div>
 
-    <div id="loginModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:9998; justify-content:center; align-items:center;">
-        <div style="background:#1e293b; padding:30px; border-radius:15px; width:80%; max-width:300px; text-align:center; border:2px solid #dc2626;">
-            <h3 style="color:#fff;">PAYNE HUB v5.2</h3>
-            <p style="font-size:12px; color:#94a3b8;">System Secure: Enter Admin Code or Continue</p>
-            
-            <input type="password" id="adminCode" placeholder="Enter Admin Number" style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:none; box-sizing:border-box;">
-            
-            <button onclick="checkAdmin()" style="width:100%; padding:10px; background:#dc2626; border:none; color:white; font-weight:bold; cursor:pointer; border-radius:5px;">Enter Gateway</button>
-            
-            <p onclick="closeLogin()" style="cursor:pointer; font-size:12px; color:#dc2626; margin-top:15px; text-decoration:underline;">Continue as Guest</p>
+    <div id="gateway" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9998; justify-content:center; align-items:center;">
+        <div style="background:#1e293b; padding:20px; border-radius:10px; width:80%; max-width:300px; text-align:center;">
+            <h3>Admin Access</h3>
+            <input type="password" id="code" placeholder="Code" style="width:100%; padding:8px; margin-bottom:10px;">
+            <button onclick="check()" style="width:100%; padding:10px; background:#dc2626; border:none; color:white;">Enter</button>
+            <p onclick="closeGateway()" style="margin-top:15px; color:#dc2626; cursor:pointer;">Continue as Guest</p>
         </div>
     </div>
-
-    <header style="background: #dc2626; padding: 25px; text-align: center;">
-        <h1 style="margin: 0; font-size: 28px;">⚡ PAYNE HUB ⚡</h1>
-        <p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.8;">Premium Media & Vault Architecture</p>
-    </header>
 
     <div style="padding:20px; text-align:center;">
-        <div style="background:#1e293b; padding:20px; border-radius:10px; border:1px solid #334155;">
-            <h3>System Status: Online</h3>
-            <p style="color:#94a3b8;">Welcome to the high-performance vault interface.</p>
-        </div>
+        <h1>⚡ PAYNE HUB ⚡</h1>
+        <p>System Online.</p>
     </div>
 
     <script>
-        // Splash Screen Logic
+        // Simple, error-proof logic
         window.onload = function() {
             setTimeout(function() {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('loginModal').style.display = 'flex';
-            }, 2500);
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('gateway').style.display = 'flex';
+            }, 1000);
         };
 
-        // Admin Access Logic
-        function checkAdmin() {
-            const code = document.getElementById('adminCode').value;
-            const ADMIN_PASS = "12345"; // YOU CAN CHANGE THIS KEY
-
-            if (code === ADMIN_PASS) {
-                alert("✅ Welcome, Administrator Justice Payne.");
-                closeLogin();
+        function check() {
+            if(document.getElementById('code').value === "12345") {
+                alert("Admin Access Granted");
+                closeGateway();
             } else {
-                alert("❌ Invalid Access. Proceeding as Guest.");
-                closeLogin();
+                alert("Proceeding as Guest");
+                closeGateway();
             }
         }
 
-        // Close and Remove Modal
-        function closeLogin() {
-            const modal = document.getElementById('loginModal');
-            modal.style.display = 'none';
-            modal.remove();
+        function closeGateway() {
+            document.getElementById('gateway').style.display = 'none';
         }
     </script>
 </body>
