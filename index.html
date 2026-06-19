@@ -11,15 +11,16 @@
         <button onclick="toggleSettings(true)" style="position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.3); border: none; color: white; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; z-index: 10;">⚙️ Settings</button>
         
         <h1 style="margin: 0; font-size: 38px; letter-spacing: 2px; font-weight: 900; text-shadow: 2px 2px 5px rgba(0,0,0,0.6);">⚡ PAYNE HUB ⚡</h1>
-        <p style="margin: 5px 0 15px 0; color: #fecaca; font-size: 14px;">The Vault Architecture: Games, Music, and Movies Ecosystem</p>
+        <p style="margin: 5px 0 15px 0; color: #fecaca; font-size: 14px;">The Vault Architecture: Games, Music, and Social Ecosystem</p>
         
-        <input type="text" id="storeSearchInput" onkeyup="filterCatalog()" placeholder="🔍 Search games, music, or movies..." style="width: 85%; max-width: 500px; padding: 12px 20px; font-size: 15px; border-radius: 30px; border: none; outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); text-align: center;">
+        <input type="text" id="storeSearchInput" onkeyup="filterCatalog()" placeholder="🔍 Search games, apps, or music..." style="width: 85%; max-width: 500px; padding: 12px 20px; font-size: 15px; border-radius: 30px; border: none; outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); text-align: center;">
     </header>
 
     <nav style="background-color: #1e293b; display: flex; justify-content: center; gap: 10px; padding: 12px; border-bottom: 2px solid #334155; overflow-x: auto;">
-        <button id="tab-ALL" class="nav-tab" onclick="switchCategory('ALL')" style="background-color: #ef4444; color: white; border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s;">📱 All Collective</button>
-        <button id="tab-GAME" class="nav-tab" onclick="switchCategory('GAME')" style="background-color: #334155; color: #cbd5e1; border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s;">🎮 Games</button>
-        <button id="tab-MUSIC" class="nav-tab" onclick="switchCategory('MUSIC')" style="background-color: #334155; color: #cbd5e1; border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s;">🎵 Music Lib</button>
+        <button id="tab-ALL" class="nav-tab" onclick="switchCategory('ALL')" style="background-color: #ef4444; color: white; border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s; white-space: nowrap;">📱 All Collective</button>
+        <button id="tab-GAME" class="nav-tab" onclick="switchCategory('GAME')" style="background-color: #334155; color: #cbd5e1; border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s; white-space: nowrap;">🎮 Games</button>
+        <button id="tab-APP" class="nav-tab" onclick="switchCategory('APP')" style="background-color: #334155; color: #cbd5e1; border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s; white-space: nowrap;">⚡ Social Apps</button>
+        <button id="tab-MUSIC" class="nav-tab" onclick="switchCategory('MUSIC')" style="background-color: #334155; color: #cbd5e1; border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s; white-space: nowrap;">🎵 Music Lib</button>
     </nav>
 
     <main style="padding: 20px; max-width: 1200px; margin: auto;">
@@ -35,7 +36,7 @@
 
     <div id="bottomAudioPlayer" style="display: none; position: fixed; bottom: 0; left: 0; width: 100%; background-color: #1e293b; border-top: 3px solid #a855f7; padding: 15px 20px; box-shadow: 0 -5px 25px rgba(0,0,0,0.6); box-sizing: border-box; z-index: 999; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
         <div style="display: flex; align-items: center; gap: 12px; min-width: 200px;">
-            <div style="background-color: #a855f7; padding: 8px; border-radius: 50%; display: flex; align-items: center; justify-content: center;" id="playerDiskIcon">
+            <div style="background-color: #a855f7; padding: 8px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
                 <svg style="width:24px; height:24px; fill:#fff;" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg>
             </div>
             <div>
@@ -55,5 +56,198 @@
         <button onclick="closeAudioPlayer()" style="background: rgba(255,255,255,0.1); border: none; color: #94a3b8; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 12px;">✕ Close</button>
     </div>
 
-    <div id="settingsPanel" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 1
-        
+    <div id="settingsPanel" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 10000; padding: 10px; box-sizing: border-box;">
+        <div style="background-color: #1e293b; border: 2px solid #ef4444; border-radius: 16px; width: 100%; max-width: 440px; box-shadow: 0 15px 35px rgba(0,0,0,0.6); overflow: hidden; display: flex; flex-direction: column;">
+            
+            <div style="display: flex; background-color: #0f172a; border-bottom: 2px solid #334155;">
+                <button id="setTab-UI" onclick="switchSettingsTab('UI')" style="flex: 1; padding: 15px; border: none; background: #1e293b; color: #ef4444; font-weight: bold; font-size: 14px; cursor: pointer;">🎨 Interface</button>
+                <button id="setTab-ABOUT" onclick="switchSettingsTab('ABOUT')" style="flex: 1; padding: 15px; border: none; background: transparent; color: #94a3b8; font-weight: bold; font-size: 14px; cursor: pointer;">ℹ️ About System</button>
+            </div>
+
+            <div style="padding: 22px; max-height: 380px; overflow-y: auto; box-sizing: border-box;">
+                <div id="settingsContent-UI">
+                    <label style="display: block; margin-bottom: 10px; font-weight: bold; font-size: 14px; color: #94a3b8; text-transform: uppercase;">App Theme Control Preset</label>
+                    <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
+                        <button onclick="changeTheme('#0f172a')" style="background: #0f172a; color: white; border: 1px solid #ef4444; padding: 10px; border-radius: 8px; text-align: left; cursor: pointer;">🌌 Default Dark Onyx</button>
+                        <button onclick="changeTheme('#111827')" style="background: #111827; color: #38bdf8; border: 1px solid #334155; padding: 10px; border-radius: 8px; text-align: left; cursor: pointer;">🤖 Cyber Matrix Blue</button>
+                        <button onclick="changeTheme('#180828')" style="background: #180828; color: #c084fc; border: 1px solid #334155; padding: 10px; border-radius: 8px; text-align: left; cursor: pointer;">🔮 Velvet Purple Deep</button>
+                    </div>
+                </div>
+
+                <div id="settingsContent-ABOUT" style="display: none;">
+                    <div style="text-align: center; margin-bottom: 15px; background-color: #0f172a; padding: 15px; border-radius: 10px; border: 1px solid #334155;">
+                        <h4 style="margin: 0; color: #fff; font-size: 18px;">⚡ PAYNE HUB OS ⚡</h4>
+                        <span id="aboutPanelCounter" style="background-color: #ef4444; color: white; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 10px; margin-top: 5px; display: inline-block;">Loading Repository Stats...</span>
+                    </div>
+
+                    <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #cbd5e1;">
+                        <tr style="border-bottom: 1px solid #334155;"><td style="padding: 8px 0; font-weight: bold; color: #94a3b8;">Developer:</td><td style="padding: 8px 0; text-align: right; color: #fff;">Justice Payne Setup Core</td></tr>
+                        <tr style="border-bottom: 1px solid #334155;"><td style="padding: 8px 0; font-weight: bold; color: #94a3b8;">Media Engine:</td><td style="padding: 8px 0; text-align: right; color: #a855f7;">HTML5 Global Audio Core</td></tr>
+                        <tr><td style="padding: 8px 0; font-weight: bold; color: #94a3b8;">System Host:</td><td style="padding: 8px 0; text-align: right; color: #38bdf8;">GitHub Pages Gateway</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div style="background-color: #0f172a; padding: 15px; display: flex; justify-content: flex-end; border-top: 1px solid #334155;">
+                <button onclick="toggleSettings(false)" style="background-color: #ef4444; color: white; border: none; padding: 8px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; width: 100%;">Apply Changes & Exit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentActiveCategory = "ALL";
+        const audioElement = document.getElementById("globalAudioEngine");
+
+        const svgIcons = {
+            GAME: `<svg style="width:30px; height:30px; fill:#fbbf24;" viewBox="0 0 24 24"><path d="M21,6H3A2,2 0 0,0 1,8V16A2,2 0 0,0 3,18H21A2,2 0 0,0 23,16V8A2,2 0 0,0 21,6M6,15H5V13H3V11H5V9H6V11H8V13H6V15M15.5,12A1.5,1.5 0 1,1 14,10.5A1.5,1.5 0 0,1 15.5,12M18.5,15A1.5,1.5 0 1,1 17,13.5A1.5,1.5 0 0,1 18.5,15Z"/></svg>`,
+            APP: `<svg style="width:30px; height:30px; fill:#38bdf8;" viewBox="0 0 24 24"><path d="M17,1H7A2,2 0 0,0 5,3V21A2,2 0 0,0 7,23H17A2,2 0 0,0 19,21V3A2,2 0 0,0 17,1M17,19H7V5H17V19M12,9A3,3 0 1,0 15,12A3,3 0 0,0 12,9Z"/></svg>`,
+            MUSIC: `<svg style="width:30px; height:30px; fill:#a855f7;" viewBox="0 0 24 24"><path d="M21,3V15.5A3.5,3.5 0 0,1 17.5,19A3.5,3.5 0 0,1 14,15.5A3.5,3.5 0 0,1 17.5,12C18.04,12 18.55,12.12 19,12.34V6.47L9,8.6V17.5A3.5,3.5 0 0,1 5.5,21A3.5,3.5 0 0,1 2,17.5A3.5,3.5 0 0,1 5.5,14C6.04,14 6.55,14.12 7,14.34V4L21,3Z"/></svg>`
+        };
+
+        const badgeColors = { GAME: "#fbbf24", APP: "#38bdf8", MUSIC: "#a855f7" };
+
+        const rawGamesList = [
+            { title: "DLS 2026 Mobile", size: "520 MB", desc: "Build your ultimate football squad with real licensed players." },
+            { title: "eFootball Mobile", size: "2.7 GB", desc: "High-end authentic match simulation engine by Konami." },
+            { title: "Garena Free Fire", size: "410 MB", desc: "Survival tactical multiplayer arena layout engine." }
+        ];
+
+        const rawAppsList = [
+            { title: "TikTok Pro", size: "95 MB", desc: "Global video communication feed architecture network." },
+            { title: "Facebook Core", size: "65 MB", desc: "Social framework infrastructure portal and message hub." },
+            { title: "WhatsApp Business", size: "42 MB", desc: "Encrypted instant messaging system and media platform." },
+            { title: "Instagram Lite", size: "18 MB", desc: "Photo and media feed rendering community layout." }
+        ];
+
+        const rawMusicList = [
+            { artist: "Shatta Wale", track: "Melissa", streamUrl: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Example.ogg" },
+            { artist: "Shatta Wale", track: "Ayoo", streamUrl: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Example.ogg" }
+        ];
+
+        const catalogItems = [];
+
+        // GENERATING 400 GAMES
+        for (let i = 0; i < 400; i++) {
+            let base = rawGamesList[i % rawGamesList.length];
+            catalogItems.push({
+                id: catalogItems.length + 1, type: "GAME", title: `${base.title} v${Math.floor(i/3)+1}.0`, size: base.size,
+                description: base.desc, iconHtml: svgIcons.GAME, badgeColor: badgeColors.GAME
+            });
+        }
+
+        // GENERATING 400 SOCIAL APPS
+        for (let i = 0; i < 400; i++) {
+            let base = rawAppsList[i % rawAppsList.length];
+            catalogItems.push({
+                id: catalogItems.length + 1, type: "APP", title: `${base.title} Mod-X${i+1}`, size: base.size,
+                description: base.desc, iconHtml: svgIcons.APP, badgeColor: badgeColors.APP
+            });
+        }
+
+        // GENERATING 300 MUSIC ENTRIES
+        for (let i = 0; i < 300; i++) {
+            let base = rawMusicList[i % rawMusicList.length];
+            catalogItems.push({
+                id: catalogItems.length + 1, type: "MUSIC", title: `${base.artist} - ${base.track} Track-${i+1}`,
+                artist: base.artist, track: base.track, streamAudio: base.streamUrl,
+                description: `High Fidelity studio master stream index format.`,
+                iconHtml: svgIcons.MUSIC, badgeColor: badgeColors.MUSIC
+            });
+        }
+
+        function renderGrid(items) {
+            const grid = document.getElementById("catalogGrid");
+            grid.innerHTML = "";
+            
+            items.forEach(item => {
+                const card = document.createElement("div");
+                card.style = "background-color: #1e293b; border-radius: 12px; padding: 16px; border: 1px solid #334155; display: flex; flex-direction: column; justify-content: space-between;";
+                
+                let actionButtonsHtml = "";
+                if(item.type === "MUSIC") {
+                    actionButtonsHtml = `
+                        <button onclick="playMusicPreview('${item.artist.replace(/'/g, "\\'")}', '${item.track.replace(/'/g, "\\'")}', '${item.streamAudio}')" style="background-color: #a855f7; color: white; border: none; padding: 6px 12px; font-size: 12px; font-weight: bold; border-radius: 5px; cursor: pointer;">▶ Play Preview</button>
+                        <span style="font-size: 12px; color: #94a3b8;">🎵 Track</span>
+                    `;
+                } else {
+                    actionButtonsHtml = `
+                        <span style="font-size: 12px; color: #94a3b8;">📦 ${item.size}</span>
+                        <button onclick="alert('System Core Launching Download Package...')" style="background-color: #ef4444; color: white; border: none; padding: 6px 12px; font-size: 12px; font-weight: bold; border-radius: 5px;">Download</button>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div>
+                        <div style="display: flex; gap: 14px; margin-bottom: 12px; align-items: center;">
+                            <div style="background-color: #0f172a; padding: 8px; border-radius: 10px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">${item.iconHtml}</div>
+                            <div>
+                                <span style="background-color: ${item.badgeColor}; color: #000; font-size: 10px; font-weight: bold; padding: 2px 7px; border-radius: 4px;">${item.type}</span>
+                                <h3 style="margin: 3px 0 0 0; font-size: 15px; color: #fff;">${item.title}</h3>
+                            </div>
+                        </div>
+                        <p style="margin: 0 0 12px 0; color: #94a3b8; font-size: 13px;">${item.description}</p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; background-color: #0f172a; padding: 8px 12px; border-radius: 6px;">
+                        ${actionButtonsHtml}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            document.getElementById("catalogCounter").innerText = `${items.length} Items Loaded`;
+        }
+
+        function playMusicPreview(artist, track, audioUrl) {
+            document.getElementById("playerTrackTitle").innerText = track;
+            document.getElementById("playerArtistName").innerText = artist;
+            document.getElementById("bottomAudioPlayer").style.display = "flex";
+            audioElement.src = audioUrl;
+            audioElement.play().then(_ => { document.getElementById("playerPlayPauseBtn").innerText = "⏸"; });
+        }
+
+        audioElement.ontimeupdate = function() {
+            if (audioElement.duration) {
+                const percentage = (audioElement.currentTime / audioElement.duration) * 100;
+                document.getElementById("playerProgressBar").style.width = percentage + "%";
+                let mins = Math.floor(audioElement.currentTime / 60);
+                let secs = Math.floor(audioElement.currentTime % 60);
+                document.getElementById("playerTimeTrack").innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            }
+        };
+
+        function togglePlayPause() {
+            if (audioElement.paused) { audioElement.play(); document.getElementById("playerPlayPauseBtn").innerText = "⏸"; } 
+            else { audioElement.pause(); document.getElementById("playerPlayPauseBtn").innerText = "▶"; }
+        }
+
+        function closeAudioPlayer() { audioElement.pause(); document.getElementById("bottomAudioPlayer").style.display = "none"; }
+
+        function switchSettingsTab(tabId) {
+            if (tabId === 'UI') {
+                document.getElementById('settingsContent-UI').style.display = 'block';
+                document.getElementById('settingsContent-ABOUT').style.display = 'none';
+                document.getElementById('setTab-UI').style.background = '#1e293b';
+                document.getElementById('setTab-UI').style.color = '#ef4444';
+                document.getElementById('setTab-ABOUT').style.background = 'transparent';
+                document.getElementById('setTab-ABOUT').style.color = '#94a3b8';
+            } else {
+                document.getElementById('settingsContent-UI').style.display = 'none';
+                document.getElementById('settingsContent-ABOUT').style.display = 'block';
+                document.getElementById('setTab-UI').style.background = 'transparent';
+                document.getElementById('setTab-UI').style.color = '#94a3b8';
+                document.getElementById('setTab-ABOUT').style.background = '#1e293b';
+                document.getElementById('setTab-ABOUT').style.color = '#ef4444';
+            }
+        }
+
+        function filterCatalog() {
+            const query = document.getElementById("storeSearchInput").value.toLowerCase().trim();
+            let filtered = catalogItems.filter(item => (currentActiveCategory === "ALL" || item.type === currentActiveCategory) && item.title.toLowerCase().includes(query));
+            renderGrid(filtered);
+        }
+
+        function switchCategory(category) {
+            currentActiveCategory = category;
+            document.querySelectorAll('.nav-tab').forEach(btn => { btn.style.backgroundColor = '#334155'; btn.style.color = '#cbd5e1'; });
+            const activeTab = document.getElementById(`tab-${category}`);
+            if(activeTab) { activeTab.style.backgroundColor = '#ef4444'; activeTab.style.color = 'white'; }
+       
