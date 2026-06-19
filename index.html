@@ -2,59 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAYNE HUB - AI Assistant</title>
-    <style>
-        body { margin: 0; background-color: #0f172a; color: #fff; font-family: sans-serif; }
-        .card { background: #1e293b; padding: 25px; border-radius: 15px; width: 80%; max-width: 400px; margin: 20px auto; text-align: center; border: 2px solid #dc2626; }
-    </style>
+    <title>PAYNE HUB</title>
 </head>
 <body>
-    <header style="background: #dc2626; padding: 20px; text-align: center;"><h1>⚡ PAYNE HUB ⚡</h1></header>
-    
-    <div class="card">
-        <h3>AI Assistant</h3>
-        <input type="password" id="apiKeyInput" placeholder="Paste your API Key here" style="width:90%; padding:10px; margin-bottom:10px; border-radius:5px; border:none; box-sizing:border-box;">
-        
-        <div id="chatLog" style="height: 200px; overflow-y: scroll; border: 1px solid #334155; margin-bottom: 10px; padding: 10px; text-align: left; background: #0f172a;"></div>
-        
-        <input type="text" id="userInput" placeholder="Ask me anything..." style="width: 60%; padding: 10px; border-radius: 5px; border:none;">
-        <button onclick="askAI()" style="padding: 10px; background: #dc2626; color: white; border: none; border-radius: 5px; cursor:pointer;">SEND</button>
-    </div>
+    <h1>PAYNE HUB</h1>
+    <input type="password" id="apiKeyInput" placeholder="Paste API Key">
+    <input type="text" id="userInput" placeholder="Ask anything">
+    <button onclick="askAI()">SEND</button>
+    <div id="chatLog"></div>
 
     <script>
         async function askAI() {
             const API_KEY = document.getElementById('apiKeyInput').value;
             const input = document.getElementById('userInput').value;
-            const chatLog = document.getElementById('chatLog');
-            
-            if(!API_KEY) { alert("Please paste your API Key first."); return; }
-            if(!input) return;
-
-            chatLog.innerHTML += `<p style="color: #60a5fa;">You: ${input}</p>`;
-            document.getElementById('userInput').value = '';
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
             
             try {
-         const response = await fetch('https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=' + API_KEY, {
-        
+                const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ "contents": [{ "parts": [{ "text": input }] }] })
                 });
-                
                 const data = await response.json();
-                
-                if (data.candidates && data.candidates[0].content) {
-                    const aiReply = data.candidates[0].content.parts[0].text;
-                    chatLog.innerHTML += `<p style="color: #fff;">AI: ${aiReply}</p>`;
-                } else {
-                    alert("Error: " + JSON.stringify(data));
-                }
-            } catch (error) {
-                alert("Connection Error: " + error.message);
+                document.getElementById('chatLog').innerText = data.candidates[0].content.parts[0].text;
+            } catch (err) {
+                alert("Error: " + err.message);
             }
         }
     </script>
 </body>
-            </html>
-            
+</html>
