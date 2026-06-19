@@ -1,44 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>PAYNE HUB - Premium Portal</title>
-  <meta name="description" content="Payne Hub — secure portal demo">
-  <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="css/style.css">
-</head>
+    <meta charset="UTF-8">
+    <title>PAYNE HUB - Premium Portal</title>
+    </head>
 <body>
 
-  <div id="loader" class="loader" aria-hidden="false">
-    <h2>⚡ LOADING PAYNE HUB...</h2>
-  </div>
-
-  <div id="gateway" class="gateway" role="dialog" aria-modal="true" aria-labelledby="gatewayTitle" aria-hidden="true">
-    <div class="card" role="document">
-      <h3 id="gatewayTitle">System Gateway</h3>
-      <label for="adminCode" class="visually-hidden">Admin code</label>
-      <input id="adminCode" type="password" placeholder="Admin Number" aria-describedby="adminHelp" />
-      <div id="adminHelp" class="help">Enter your admin credential to proceed (demo only).</div>
-
-      <div class="controls">
-        <button id="enterBtn" class="btn primary">ENTER</button>
-        <button id="guestBtn" class="btn link">Continue as Guest</button>
-      </div>
-
-      <div id="status" class="status" aria-live="polite"></div>
-    </div>
-  </div>
-
-  <header class="site-header"><h1>⚡ PAYNE HUB ⚡</h1></header>
-
-  <main style="padding: 20px; text-align: center;">
-    <div id="appContainer" class="app-container">
-      <h3>Welcome to the Vault</h3>
-      <p>Accessing secure infrastructure.</p>
-    </div>
-  </main>
-
-  <script src="js/app.js" defer></script>
+    <script>
+        // All your JavaScript logic goes here
+        async function askAI() {
+            // ... your AI calling code ...
+        }
+    </script>
 </body>
 </html>
+async function askAI() {
+    const chatLog = document.getElementById('chatLog');
+    chatLog.innerHTML += `<p><em>AI is thinking...</em></p>`;
+    
+    // ... then fetch the data ...
+    
+    // Once you get the reply, remember to remove or replace that "Thinking..." message!
+}
