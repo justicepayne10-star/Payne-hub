@@ -4,73 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PAYNE HUB - Premium Portal</title>
+    <style>
+        /* CSS for the Splash Screen */
+        #splashScreen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #0f172a; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 99999;
+            transition: opacity 0.8s ease;
+        }
+        .loader {
+            border: 5px solid #1e293b; border-top: 5px solid #dc2626;
+            border-radius: 50%; width: 50px; height: 50px;
+            animation: spin 1s linear infinite; margin-bottom: 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
 <body id="appBody" style="font-family: sans-serif; background-color: #0f172a; color: #fff; margin: 0;">
 
+    <div id="splashScreen">
+        <div class="loader"></div>
+        <h1 style="color: #dc2626; font-size: 32px;">PAYNE HUB</h1>
+        <p style="color: #94a3b8; font-size: 14px;">Initializing Vault Architecture...</p>
+    </div>
+
     <header style="background: #dc2626; padding: 25px; text-align: center;">
         <h1 style="margin: 0; font-size: 28px;">⚡ PAYNE HUB ⚡</h1>
-        <p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.8;">Premium App & Media Ecosystem</p>
         <input type="text" id="searchBar" onkeyup="updateUI()" placeholder="🔍 Search vault..." style="width: 80%; padding: 10px; margin-top: 15px; border-radius: 20px; border: none; text-align: center;">
     </header>
 
-    <nav style="background: #1e293b; padding: 15px; display: flex; justify-content: center; gap: 10px;">
-        <button onclick="setFilter('ALL')">All</button>
-        <button onclick="setFilter('GAME')">Games</button>
-        <button onclick="setFilter('APP')">Apps</button>
-        <button onclick="setFilter('MUSIC')">Music</button>
-    </nav>
-
-    <main style="padding: 20px;">
-        <div id="grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px;"></div>
-    </main>
-
     <script>
-        // ADD NEW ITEMS HERE - JUST COPY A LINE!
+        // Splash Screen Logic
+        window.addEventListener("load", () => {
+            const splash = document.getElementById("splashScreen");
+            setTimeout(() => {
+                splash.style.opacity = "0";
+                setTimeout(() => { splash.style.display = "none"; }, 800);
+            }, 2000); // Stays visible for 2 seconds
+        });
+
+        // Your existing database and updateUI logic...
         const database = [
             { type: "GAME", title: "DLS 2026", desc: "Pro Soccer Simulator", color: "#fbbf24", verified: true },
-            { type: "APP", title: "TikTok Pro", desc: "Video Network", color: "#38bdf8", verified: true },
-            { type: "MUSIC", title: "Global Hits", desc: "Master Audio", color: "#a855f7", verified: false },
-            { type: "GAME", title: "Free Fire", desc: "Battle Royale", color: "#fbbf24", verified: true },
-            { type: "APP", title: "WhatsApp Business", desc: "Chat System", color: "#38bdf8", verified: true }
+            { type: "APP", title: "TikTok Pro", desc: "Video Network", color: "#38bdf8", verified: true }
         ];
-
-        let currentFilter = "ALL";
-
-        function setFilter(f) { currentFilter = f; updateUI(); }
-
-        function updateUI() {
-            const query = document.getElementById("searchBar").value.toLowerCase();
-            const grid = document.getElementById("grid");
-            grid.innerHTML = "";
-
-            const filtered = database.filter(i => 
-                (currentFilter === "ALL" || i.type === currentFilter) && 
-                i.title.toLowerCase().includes(query)
-            );
-
-            filtered.forEach(item => {
-                const card = document.createElement("div");
-                card.style = `background: #1e293b; padding: 15px; border-radius: 10px; border-left: 5px solid ${item.color}; position: relative;`;
-                card.innerHTML = `
-                    <h3 style="margin:0">${item.title} ${item.verified ? '✅' : ''}</h3>
-                    <p style="font-size:12px; color:#94a3b8">${item.desc}</p>
-                    <button onclick="downloadAction(this, '${item.title}')" style="background:${item.color}; border:none; padding:8px; width:100%; border-radius:5px; font-weight:bold; cursor:pointer;">Download</button>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function downloadAction(btn, name) {
-            btn.innerText = "Syncing...";
-            btn.style.opacity = "0.5";
-            setTimeout(() => {
-                alert(name + " has been added to your vault!");
-                btn.innerText = "Download";
-                btn.style.opacity = "1";
-            }, 1000);
-        }
-
-        updateUI();
+        // ... (Keep the rest of your updateUI function)
     </script>
 </body>
 </html>
