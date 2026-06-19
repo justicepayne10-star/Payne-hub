@@ -3,89 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAYNE HUB - Ultimate Entertainment System</title>
+    <title>PAYNE HUB - Interface Foundation</title>
 </head>
-<body id="appBody" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0f172a; color: #f8fafc; margin: 0; padding: 0; transition: background 0.3s, color 0.3s; padding-bottom: 90px;">
+<body id="appBody" style="font-family: 'Segoe UI', sans-serif; background-color: #0f172a; color: #f8fafc; margin: 0; padding: 0;">
 
-    <header style="background-color: #dc2626; padding: 25px 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.4); position: relative;">
-        <button onclick="toggleSettings(true)" style="position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.3); border: none; color: white; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; z-index: 10;">⚙️ Settings</button>
+    <header style="background-color: #dc2626; padding: 30px 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+        <h1 style="margin: 0; font-size: 40px; letter-spacing: 2px; font-weight: 900;">⚡ PAYNE HUB ⚡</h1>
+        <p style="margin: 10px 0 20px 0; color: #fee2e2; font-size: 15px; opacity: 0.9;">The Vault Architecture: v5.2.0 | Foundation Phase</p>
         
-        <h1 style="margin: 0; font-size: 38px; letter-spacing: 2px; font-weight: 900; text-shadow: 2px 2px 5px rgba(0,0,0,0.6);">⚡ PAYNE HUB ⚡</h1>
-        <p style="margin: 5px 0 15px 0; color: #fecaca; font-size: 14px;">The Vault Architecture: v5.2.0 Live Engine</p>
-        
-        <input type="text" id="storeSearchInput" onkeyup="filterCatalog()" placeholder="🔍 Search games, apps, or music..." style="width: 85%; max-width: 500px; padding: 12px 20px; font-size: 15px; border-radius: 30px; border: none; outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); text-align: center;">
+        <input type="text" id="storeSearchInput" onkeyup="filterCatalog()" placeholder="🔍 Interface Search..." style="width: 90%; max-width: 500px; padding: 12px 20px; border-radius: 30px; border: none; outline: none; text-align: center;">
     </header>
 
-    <nav style="background-color: #1e293b; display: flex; justify-content: center; gap: 10px; padding: 12px; border-bottom: 2px solid #334155; overflow-x: auto;">
-        <button id="tab-ALL" class="nav-tab" onclick="switchCategory('ALL')" style="background-color: #ef4444; color: white; border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; white-space: nowrap;">📱 All</button>
-        <button id="tab-GAME" class="nav-tab" onclick="switchCategory('GAME')" style="background-color: #334155; color: #cbd5e1; border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; white-space: nowrap;">🎮 Games</button>
-        <button id="tab-APP" class="nav-tab" onclick="switchCategory('APP')" style="background-color: #334155; color: #cbd5e1; border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; white-space: nowrap;">⚡ Social Apps</button>
-        <button id="tab-MUSIC" class="nav-tab" onclick="switchCategory('MUSIC')" style="background-color: #334155; color: #cbd5e1; border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; white-space: nowrap;">🎵 Music</button>
+    <nav id="navBar" style="background-color: #1e293b; display: flex; justify-content: center; gap: 15px; padding: 15px; border-bottom: 3px solid #334155;">
+        <button onclick="switchCategory('ALL')" style="padding: 10px 20px; border-radius: 25px; border: none; background: #ef4444; color: white; font-weight: bold; cursor: pointer;">All Collective</button>
+        <button onclick="switchCategory('GAME')" style="padding: 10px 20px; border-radius: 25px; border: none; background: #334155; color: #cbd5e1; font-weight: bold; cursor: pointer;">Games</button>
+        <button onclick="switchCategory('APP')" style="padding: 10px 20px; border-radius: 25px; border: none; background: #334155; color: #cbd5e1; font-weight: bold; cursor: pointer;">Social Apps</button>
+        <button onclick="switchCategory('MUSIC')" style="padding: 10px 20px; border-radius: 25px; border: none; background: #334155; color: #cbd5e1; font-weight: bold; cursor: pointer;">Music Lib</button>
     </nav>
 
     <main style="padding: 20px; max-width: 1200px; margin: auto;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2 id="currentCategoryTitle" style="color: #f87171; margin: 0; font-size: 20px;">📦 Repository Database</h2>
-            <span id="catalogCounter" style="background-color: #10b981; padding: 5px 12px; font-weight: bold; border-radius: 15px; font-size: 13px;">0 Items</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <h2 id="categoryLabel" style="margin: 0; color: #f87171;">System Repository</h2>
+            <div id="statusBadge" style="background: #10b981; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 12px;">READY</div>
         </div>
-        <div id="catalogGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;"></div>
+        <div id="catalogGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+            </div>
     </main>
 
-    <audio id="globalAudioEngine"></audio>
-    <div id="settingsPanel" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); justify-content:center; align-items:center; z-index:10000;">
-        <div style="background:#1e293b; padding:25px; border-radius:15px; width:90%; max-width:400px; border:2px solid #ef4444;">
-            <h3 style="color:#fff;">System Information</h3>
-            <p style="color:#94a3b8;">Total Payload: 1,100 Active Modules</p>
-            <button onclick="toggleSettings(false)" style="width:100%; padding:10px; background:#ef4444; border:none; color:white; font-weight:bold; cursor:pointer; border-radius:5px;">Exit</button>
-        </div>
-    </div>
-
     <script>
-        const catalogItems = [];
-        const svgIcons = {
-            GAME: `<svg style="width:24px;height:24px;fill:#fbbf24" viewBox="0 0 24 24"><path d="M21,6H3A2,2 0 0,0 1,8V16A2,2 0 0,0 3,18H21A2,2 0 0,0 23,16V8A2,2 0 0,0 21,6Z"/></svg>`,
-            APP: `<svg style="width:24px;height:24px;fill:#38bdf8" viewBox="0 0 24 24"><path d="M17,1H7A2,2 0 0,0 5,3V21A2,2 0 0,0 7,23H17A2,2 0 0,0 19,21V3A2,2 0 0,0 17,1Z"/></svg>`,
-            MUSIC: `<svg style="width:24px;height:24px;fill:#a855f7" viewBox="0 0 24 24"><path d="M12,3V13.55A3.5,3.5 0 1,0 14,17V7H18V3H12Z"/></svg>`
-        };
+        // Database Initialization
+        const database = [
+            { type: "GAME", title: "DLS 2026", desc: "Football Simulation Core" },
+            { type: "APP", title: "TikTok Pro", desc: "Media Streaming Engine" },
+            { type: "MUSIC", title: "Studio Master Vol 1", desc: "High-Fidelity Audio" }
+        ];
 
-        // POPULATE DATABASE
-        for(let i=0; i<400; i++) catalogItems.push({type:"GAME", title:`DLS Action v${i+1}`, size:"520 MB", desc:"Pro Soccer Simulator", icon:svgIcons.GAME, color:"#fbbf24"});
-        for(let i=0; i<400; i++) catalogItems.push({type:"APP", title:`Social Feed X${i+1}`, size:"95 MB", desc:"Global Media Connection", icon:svgIcons.APP, color:"#38bdf8"});
-        for(let i=0; i<300; i++) catalogItems.push({type:"MUSIC", title:`Studio Track ${i+1}`, desc:"Master Quality Audio", icon:svgIcons.MUSIC, color:"#a855f7"});
-
-        function renderGrid(items) {
+        function renderGrid(filter = "ALL") {
             const grid = document.getElementById("catalogGrid");
+            const label = document.getElementById("categoryLabel");
             grid.innerHTML = "";
-            items.forEach(item => {
+            
+            const filtered = (filter === "ALL") ? database : database.filter(i => i.type === filter);
+            
+            filtered.forEach(item => {
                 const card = document.createElement("div");
-                card.style = "background:#1e293b; padding:15px; border-radius:10px; border:1px solid #334155;";
+                card.style = "background: #1e293b; padding: 20px; border-radius: 12px; border: 1px solid #334155;";
                 card.innerHTML = `
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <div style="background:#0f172a; padding:8px; border-radius:8px;">${item.icon}</div>
-                        <div><div style="font-size:10px; font-weight:bold; color:${item.color}">${item.type}</div>
-                        <div style="font-weight:bold;">${item.title}</div></div>
-                    </div>
-                    <p style="font-size:12px; color:#94a3b8; margin:10px 0;">${item.desc}</p>
-                    <button onclick="initDownload('${item.title}')" style="width:100%; padding:8px; background:#ef4444; border:none; color:white; font-weight:bold; border-radius:5px; cursor:pointer;">Download Package</button>
+                    <h3 style="margin: 0 0 10px 0; color: #fff;">${item.title}</h3>
+                    <p style="margin: 0 0 15px 0; font-size: 13px; color: #94a3b8;">${item.desc}</p>
+                    <div style="padding: 8px; background: #0f172a; border-radius: 6px; text-align: center; color: #f87171; font-weight: bold; font-size: 12px;">PREPARED</div>
                 `;
                 grid.appendChild(card);
             });
-            document.getElementById("catalogCounter").innerText = items.length + " Items";
+            label.innerText = filter + " Repository";
         }
 
-        function initDownload(name) {
-            alert("🔒 PAYNE HUB: Initializing secure download for " + name + "...");
-            console.log("Downloading " + name + "...");
-        }
-
-        function switchCategory(cat) {
-            renderGrid(cat === "ALL" ? catalogItems : catalogItems.filter(i => i.type === cat));
-        }
-
-        function toggleSettings(s) { document.getElementById("settingsPanel").style.display = s ? "flex" : "none"; }
-        
-        renderGrid(catalogItems);
+        function switchCategory(cat) { renderGrid(cat); }
+        renderGrid(); // Initial Load
     </script>
 </body>
 </html>
-
