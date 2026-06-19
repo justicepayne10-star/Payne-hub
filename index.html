@@ -2,53 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAYNE HUB - Premium Portal</title>
+    <title>PAYNE HUB - Access Portal</title>
     <style>
-        /* CSS for the Splash Screen */
-        #splashScreen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #0f172a; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; z-index: 99999;
-            transition: opacity 0.8s ease;
-        }
-        .loader {
-            border: 5px solid #1e293b; border-top: 5px solid #dc2626;
-            border-radius: 50%; width: 50px; height: 50px;
-            animation: spin 1s linear infinite; margin-bottom: 20px;
-        }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body id="appBody" style="font-family: sans-serif; background-color: #0f172a; color: #fff; margin: 0;">
+<body style="margin:0; background:#0f172a; color:white; font-family:sans-serif;">
 
-    <div id="splashScreen">
-        <div class="loader"></div>
-        <h1 style="color: #dc2626; font-size: 32px;">PAYNE HUB</h1>
-        <p style="color: #94a3b8; font-size: 14px;">Initializing Vault Architecture...</p>
+    <div id="loading" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#0f172a; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:9999;">
+        <div style="width:50px; height:50px; border:5px solid #1e293b; border-top:5px solid #dc2626; border-radius:50%; animation:spin 1s linear infinite;"></div>
+        <h2 style="color:#dc2626; margin-top:20px;">PAYNE HUB</h2>
     </div>
 
-    <header style="background: #dc2626; padding: 25px; text-align: center;">
-        <h1 style="margin: 0; font-size: 28px;">⚡ PAYNE HUB ⚡</h1>
-        <input type="text" id="searchBar" onkeyup="updateUI()" placeholder="🔍 Search vault..." style="width: 80%; padding: 10px; margin-top: 15px; border-radius: 20px; border: none; text-align: center;">
-    </header>
+    <div id="loginModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9998; justify-content:center; align-items:center;">
+        <div style="background:#1e293b; padding:30px; border-radius:15px; width:80%; max-width:300px; text-align:center; border:2px solid #dc2626;">
+            <h3>Welcome to PAYNE HUB</h3>
+            <p style="font-size:12px; color:#94a3b8;">Create an account to save your vault progress.</p>
+            <input type="text" placeholder="Username" style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:none; box-sizing:border-box;"><br>
+            <button style="width:100%; padding:10px; background:#dc2626; border:none; color:white; font-weight:bold; cursor:pointer; border-radius:5px;">Create Account</button>
+            <p onclick="closeLogin()" style="cursor:pointer; font-size:12px; color:#dc2626; margin-top:15px; text-decoration:underline;">Continue as Guest</p>
+        </div>
+    </div>
+
+    <div style="padding:20px; text-align:center;">
+        <h1>⚡ PAYNE HUB ⚡</h1>
+        <p>Vault is active and ready.</p>
+    </div>
 
     <script>
         // Splash Screen Logic
-        window.addEventListener("load", () => {
-            const splash = document.getElementById("splashScreen");
-            setTimeout(() => {
-                splash.style.opacity = "0";
-                setTimeout(() => { splash.style.display = "none"; }, 800);
-            }, 2000); // Stays visible for 2 seconds
-        });
+        window.onload = function() {
+            setTimeout(function() {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('loginModal').style.display = 'flex'; // Show Login
+            }, 2500);
+        };
 
-        // Your existing database and updateUI logic...
-        const database = [
-            { type: "GAME", title: "DLS 2026", desc: "Pro Soccer Simulator", color: "#fbbf24", verified: true },
-            { type: "APP", title: "TikTok Pro", desc: "Video Network", color: "#38bdf8", verified: true }
-        ];
-        // ... (Keep the rest of your updateUI function)
+        // Guest Access Logic
+        function closeLogin() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
     </script>
 </body>
 </html>
