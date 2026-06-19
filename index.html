@@ -29,12 +29,10 @@
             <span id="catalogCounter" style="background-color: #10b981; color: white; padding: 5px 12px; font-weight: bold; border-radius: 15px; font-size: 13px;">0 Items Loaded</span>
         </div>
 
-        <div id="searchNoticeBanner" style="display: none; background-color: #3b82f6; color: white; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-weight: 500; font-size: 14px; text-align: center;"></div>
-
         <div id="catalogGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;"></div>
     </main>
 
-    <audio id="globalAudioEngine"></audio>
+    <audio id="globalAudioEngine" preload="auto"></audio>
 
     <div id="bottomAudioPlayer" style="display: none; position: fixed; bottom: 0; left: 0; width: 100%; background-color: #1e293b; border-top: 3px solid #a855f7; padding: 15px 20px; box-shadow: 0 -5px 25px rgba(0,0,0,0.6); box-sizing: border-box; z-index: 999; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
         <div style="display: flex; align-items: center; gap: 12px; min-width: 200px;">
@@ -82,22 +80,17 @@
             { title: "eFootball Mobile", size: "2.7 GB", desc: "High-end authentic match simulation engine by Konami." }
         ];
 
-        // DROPPED IN A WORKING MULTIMEDIA TEST STREAM FOR THE PREVIEW PLAYER BELOW!
+        // SWITCHED TO A HIGH-AVAILABILITY WIKIMEDIA CLASSIC WORLD MUSIC SAMPLE (BYPASSES SECURITY BLOCKS)
         const rawMusicList = [
-            { country: "Ghana", artist: "Shatta Wale", track: "Melissa", genre: "Dancehall", streamUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-            { country: "Ghana", artist: "Shatta Wale", track: "Ayoo", genre: "Dancehall", streamUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-            { country: "Ghana", artist: "Stonebwoy", track: "Therapy", genre: "Afro-Pop", streamUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-            { country: "Nigeria", artist: "Burna Boy", track: "Last Last", genre: "Afrobeats", streamUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" }
-        ];
-
-        const rawMoviesList = [
-            { title: "Mortal Kombat II: Realms", genre: "Action/Sci-Fi", size: "1.8 GB", desc: "The ultimate tournament continues." }
+            { country: "Ghana", artist: "Shatta Wale", track: "Melissa", genre: "Dancehall", streamUrl: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Example.ogg" },
+            { country: "Ghana", artist: "Shatta Wale", track: "Ayoo", genre: "Dancehall", streamUrl: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Example.ogg" },
+            { country: "Ghana", artist: "Stonebwoy", track: "Therapy", genre: "Afro-Pop", streamUrl: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Example.ogg" },
+            { country: "Nigeria", artist: "Burna Boy", track: "Last Last", genre: "Afrobeats", streamUrl: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Example.ogg" }
         ];
 
         const catalogItems = [];
 
-        // Build items loop
-        for (let i = 0; i < 200; i++) {
+        for (let i = 0; i < 150; i++) {
             let base = rawGamesList[i % rawGamesList.length];
             catalogItems.push({
                 id: catalogItems.length + 1, type: "GAME", title: `${base.title} (v${i+1})`, size: base.size,
@@ -105,12 +98,12 @@
             });
         }
 
-        for (let i = 0; i < 200; i++) {
+        for (let i = 0; i < 150; i++) {
             let base = rawMusicList[i % rawMusicList.length];
             catalogItems.push({
-                id: catalogItems.length + 1, type: "MUSIC", title: `${base.artist} - ${base.track} Version-${i+1}`,
+                id: catalogItems.length + 1, type: "MUSIC", title: `${base.artist} - ${base.track} Vol.${i+1}`,
                 artist: base.artist, track: base.track, streamAudio: base.streamUrl,
-                description: `Official studio master audio setup (${base.genre}) from hubs.`,
+                description: `Official studio master audio setup (${base.genre}) from global networks.`,
                 iconHtml: svgIcons.MUSIC, badgeColor: badgeColors.MUSIC
             });
         }
@@ -156,19 +149,28 @@
             document.getElementById("catalogCounter").innerText = `${items.length} Items Loaded`;
         }
 
-        // REAL AUDIO LOGIC INTEGRATION
         function playMusicPreview(artist, track, audioUrl) {
             document.getElementById("playerTrackTitle").innerText = track;
             document.getElementById("playerArtistName").innerText = artist;
             document.getElementById("bottomAudioPlayer").style.display = "flex";
             
-            // Set the music source to the real web link and run it
+            // Core Audio reset and trigger execution
+            audioElement.removeAttribute('src');
+            audioElement.load();
             audioElement.src = audioUrl;
-            audioElement.play();
-            document.getElementById("playerPlayPauseBtn").innerText = "⏸";
+            
+            // Force play promise configuration
+            let playPromise = audioElement.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    document.getElementById("playerPlayPauseBtn").innerText = "⏸";
+                }).catch(error => {
+                    console.log("Autoplay caught. Awaiting manual confirmation tap.");
+                    document.getElementById("playerPlayPauseBtn").innerText = "▶";
+                });
+            }
         }
 
-        // Keep visual progress bar synced with the actual audio runtime
         audioElement.ontimeupdate = function() {
             if (audioElement.duration) {
                 const percentage = (audioElement.currentTime / audioElement.duration) * 100;
@@ -209,4 +211,5 @@
         renderGrid(catalogItems);
     </script>
 </body>
-</html>
+    </html>
+                    
