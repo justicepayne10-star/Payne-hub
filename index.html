@@ -2,23 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PAYNE HUB - Premium Portal</title>
-    </head>
+    <style>
+        body { margin: 0; background-color: #0f172a; color: #fff; font-family: sans-serif; }
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0f172a; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; }
+        #gateway { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9998; justify-content: center; align-items: center; }
+        .card { background: #1e293b; padding: 25px; border-radius: 15px; width: 80%; max-width: 300px; text-align: center; border: 2px solid #dc2626; }
+    </style>
+</head>
 <body>
 
+    <div id="loader"><h2>⚡ LOADING PAYNE HUB...</h2></div>
+
+    <div id="gateway">
+        <div class="card">
+            <h3>System Gateway</h3>
+            <input type="password" id="adminCode" placeholder="Admin Number" style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:none; box-sizing:border-box;">
+            <button onclick="checkAdmin()" style="width:100%; padding:10px; background:#dc2626; border:none; color:white; font-weight:bold; cursor:pointer;">ENTER</button>
+            <p onclick="closeGateway()" style="cursor:pointer; font-size:12px; color:#dc2626; margin-top:15px; text-decoration:underline;">Continue as Guest</p>
+        </div>
+    </div>
+
+    <header style="background: #dc2626; padding: 20px; text-align: center;"><h1>⚡ PAYNE HUB ⚡</h1></header>
+    <main style="padding: 20px; text-align: center;">
+        <div id="appContainer" style="background:#1e293b; padding:20px; border-radius:10px;">
+            <h3>AI Assistant</h3>
+            <div id="chatLog" style="height: 200px; overflow-y: scroll; border: 1px solid #334155; margin-bottom: 10px; padding: 10px; text-align: left;"></div>
+            <input type="text" id="userInput" placeholder="Ask me anything..." style="width: 70%; padding: 10px; border-radius: 5px;">
+            <button onclick="askAI()" style="padding: 10px; background: #dc2626; color: white; border: none; border-radius: 5px;">SEND</button>
+        </div>
+    </main>
+
     <script>
-        // All your JavaScript logic goes here
+        window.onload = function() {
+            setTimeout(function() {
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('gateway').style.display = 'flex';
+            }, 1500);
+        };
+
+        function checkAdmin() {
+            if(document.getElementById('adminCode').value === "12345") {
+                alert("Welcome, Admin.");
+                closeGateway();
+            } else {
+                alert("Invalid code. Proceeding as Guest.");
+                closeGateway();
+            }
+        }
+
+        function closeGateway() {
+            document.getElementById('gateway').style.display = 'none';
+        }
+
         async function askAI() {
-            // ... your AI calling code ...
+            const input = document.getElementById('userInput').value;
+            const chatLog = document.getElementById('chatLog');
+            if(!input) return;
+
+            chatLog.innerHTML += `<p style="color: #60a5fa;">You: ${input}</p>`;
+            chatLog.innerHTML += `<p><em>AI is thinking...</em></p>`;
+            document.getElementById('userInput').value = '';
+            
+            // NOTE: Replace YOUR_API_KEY below with your actual key from Google AI Studio
+            const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=YOUR_API_KEY', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ "contents": [{ "parts": [{ "text": input }] }] })
+            });
+            
+            const data = await response.json();
+            chatLog.innerHTML = chatLog.innerHTML.replace('<p><em>AI is thinking...</em></p>', '');
+            const aiReply = data.candidates[0].content.parts[0].text;
+            chatLog.innerHTML += `<p style="color: #fff;">AI: ${aiReply}</p>`;
         }
     </script>
 </body>
 </html>
-async function askAI() {
-    const chatLog = document.getElementById('chatLog');
-    chatLog.innerHTML += `<p><em>AI is thinking...</em></p>`;
-    
-    // ... then fetch the data ...
-    
-    // Once you get the reply, remember to remove or replace that "Thinking..." message!
-}
