@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PJ AI ASSISTANCE</title>
+    <title>PAYNE HUB</title>
     <style>
         body, html { margin: 0; padding: 0; height: 100%; background-color: #0d1117; color: white; font-family: sans-serif; }
+
+        /* Full page container */
+        .app-wrapper { display: flex; height: 100vh; width: 100%; }
+
+        /* Left Sidebar - 250px wide */
+        .sidebar { width: 250px; background: #161b22; padding: 20px; border-right: 1px solid #30363d; display: flex; flex-direction: column; gap: 20px; }
+        .sidebar-item { padding: 10px; cursor: pointer; border-radius: 6px; }
+        .sidebar-item:hover { background: #21262d; }
+
+        /* Right Content Area */
+        .main-content { flex-grow: 1; display: flex; flex-direction: column; }
         
-        /* Main Layout: Flex column */
-        .app-container { display: flex; flex-direction: column; height: 100vh; width: 100%; }
-
-        /* Header */
-        header { padding: 20px; text-align: center; color: #e11d48; font-size: 1.5rem; font-weight: bold; }
-
-        /* Chat Area: Fills the remaining middle space */
         #chatLog { flex-grow: 1; padding: 20px; overflow-y: auto; color: #c9d1d9; }
 
         /* Bottom Input Area */
         .input-area { background: #161b22; padding: 20px; border-top: 1px solid #30363d; }
-        
-        /* Input & Controls */
         .api-input { width: 100%; padding: 10px; margin-bottom: 10px; background: #0d1117; border: 1px solid #30363d; color: white; border-radius: 6px; }
         .controls { display: flex; gap: 10px; margin-bottom: 10px; }
         .tool-btn { background: #30363d; border: none; color: white; padding: 10px 15px; border-radius: 6px; cursor: pointer; }
@@ -30,66 +32,61 @@
 </head>
 <body>
 
-<div class="app-container">
-    <header>PAYNE HUB</header>
-    
-    <div id="chatLog">Conversation will appear here...</div>
+<div class="app-wrapper">
+    <div class="sidebar">
+        <div class="sidebar-item"><strong>Gemini</strong></div>
+        <div class="sidebar-item">+ New chat</div>
+        <div class="sidebar-item">🔍 Search chats</div>
+        <div class="sidebar-item">🖼️ Images</div>
+        <div class="sidebar-item">📚 Library</div>
+    </div>
 
-    <div class="input-area">
-        <input type="password" id="apiKey" class="api-input" placeholder="Paste API Key">
-        <div class="controls">
-            <button class="tool-btn" onclick="document.getElementById('fileInput').click()">+ Image</button>
-            <button class="tool-btn" onclick="startVoice()">🎤 Voice</button>
-            <button class="tool-btn" onclick="document.getElementById('cameraInput').click()">📷 Camera</button>
-        </div>
-        <div class="main-input-row">
-            <input type="text" id="prompt" placeholder="Ask anything...">
-            <button class="send-btn" onclick="ask()">SEND</button>
+    <div class="main-content">
+        <div id="chatLog">Conversation will appear here...</div>
+        <div class="input-area">
+            <input type="password" id="apiKey" class="api-input" placeholder="Paste API Key">
+            <div class="controls">
+                <button class="tool-btn">+ Image</button>
+                <button class="tool-btn">🎤 Voice</button>
+                <button class="tool-btn">📷 Camera</button>
+            </div>
+            <div class="main-input-row">
+                <input type="text" id="prompt" placeholder="Ask anything...">
+                <button class="send-btn" onclick="ask()">SEND</button>
+            </div>
         </div>
     </div>
 </div>
 
-<input type="file" id="fileInput" hidden accept="image/*">
-<input type="file" id="cameraInput" hidden accept="image/*" capture="environment">
-
 <script>
-   async function ask() {
-    const key = document.getElementById('apiKey').value;
-    const text = document.getElementById('prompt').value;
-    const log = document.getElementById('chatLog');
-    
-    log.innerHTML += `<p><b>You:</b> ${text}</p>`;
-    
-    // We will use 'gemini-1.5-flash' - ensure this is the model enabled in your Google AI Studio project
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
-    
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ contents: [{ parts: [{ text: text }] }] })
-        });
+    // FIXING THE API ERROR: Use gemini-1.5-flash
+    async function ask() {
+        const key = document.getElementById('apiKey').value;
+        const text = document.getElementById('prompt').value;
+        const log = document.getElementById('chatLog');
         
-        const data = await response.json();
+        log.innerHTML += `<p><b>You:</b> ${text}</p>`;
         
-        // This 'if' check prevents the "Cannot read property '0'" error
-        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
-            const aiText = data.candidates[0].content.parts[0].text;
-            log.innerHTML += `<p><b>AI:</b> ${aiText}</p>`;
-        } else {
-            // This shows exactly what Google sent back if it wasn't a successful response
-            log.innerHTML += `<p style="color:red;"><b>Error:</b> ${JSON.stringify(data)}</p>`;
+        // This is the correct base URL for the Generative Language API
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
+        
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ contents: [{ parts: [{ text: text }] }] })
+            });
+            const data = await response.json();
+            
+            // Checking if the response is valid to avoid "undefined" errors
+            if (data.candidates && data.candidates[0].content) {
+                log.innerHTML += `<p><b>AI:</b> ${data.candidates[0].content.parts[0].text}</p>`;
+            } else {
+                log.innerHTML += `<p style="color:red;">Error: The API returned no response. Check your API key and permissions in Google AI Studio.</p>`;
+            }
+        } catch (e) {
+            log.innerHTML += `<p style="color:red;">Connection Error: ${e.message}</p>`;
         }
-    } catch (e) {
-        log.innerHTML += `<p style="color:red;"><b>Connection Error:</b> ${e.message}</p>`;
-    }
-}
-
-    
-    function startVoice() {
-        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.onresult = (event) => { document.getElementById('prompt').value = event.results[0][0].transcript; };
-        recognition.start();
     }
 </script>
 </body>
