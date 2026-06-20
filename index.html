@@ -54,7 +54,7 @@
     }
 
       
-    async function ask() {
+   async function ask() {
     const key = document.getElementById('apiKey').value;
     const text = document.getElementById('prompt').value;
     const log = document.getElementById('chatLog');
@@ -62,11 +62,10 @@
     if (!key) { alert("Please enter your API Key!"); return; }
     if (!text) { alert("Please type a message!"); return; }
     
-    // Add your message to the chat
     log.innerHTML += `<p><b>You:</b> ${text}</p>`;
     
-    // Set the target model (you can change this to any name from your list)
-    const model = 'models/gemini-1.5-flash';
+    // REPLACE THIS NAME if your list showed something different
+    const model = 'models/gemini-1.5-flash'; 
     const url = `https://generativelanguage.googleapis.com/v1beta/${model}:generateContent?key=${key}`;
     
     try {
@@ -88,9 +87,9 @@
         log.innerHTML += `<p style="color:red;"><b>Connection Error:</b> ${e.message}</p>`;
     }
     
-    // Auto-scroll to the bottom of the chat
     log.scrollTop = log.scrollHeight;
 }
+
 
 </script>
 </body>
