@@ -2,30 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>PAYNE HUB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAYNE HUB - Modern AI</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #0f172a; color: white; display: flex; justify-content: center; padding: 20px; margin: 0; }
+        .container { background-color: #1e293b; width: 100%; max-width: 500px; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: center; }
+        h1 { color: #dc2626; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #dc2626; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; }
+        #chatLog { margin-top: 20px; padding: 15px; background: #0f172a; border-radius: 10px; min-height: 150px; text-align: left; font-size: 0.9em; }
+    </style>
 </head>
 <body>
-    <h1>PAYNE HUB</h1>
-    <input type="password" id="apiKeyInput" placeholder="Paste API Key">
-    <input type="text" id="userInput" placeholder="Ask anything">
-    <button onclick="askAI()">SEND</button>
-    <div id="chatLog"></div>
+    <div class="container">
+        <h1>PAYNE HUB</h1>
+        <input type="password" id="apiKey" placeholder="Paste API Key here">
+        <input type="text" id="prompt" placeholder="Ask me anything...">
+        <button onclick="ask()">SEND</button>
+        <div id="chatLog">AI output will appear here...</div>
+    </div>
 
     <script>
-        async function askAI() {
-            const API_KEY = document.getElementById('apiKeyInput').value;
-            const input = document.getElementById('userInput').value;
-           const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+        async function ask() {
+            const key = document.getElementById('apiKey').value;
+            const text = document.getElementById('prompt').value;
+            const log = document.getElementById('chatLog');
+            
+            if(!key) { alert("Please enter your API Key"); return; }
+            log.innerText = "Thinking...";
+            
             try {
-                const response = await fetch(url, {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ "contents": [{ "parts": [{ "text": input }] }] })
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ contents: [{ parts: [{ text: text }] }] })
                 });
                 const data = await response.json();
-                document.getElementById('chatLog').innerText = data.candidates[0].content.parts[0].text;
-            } catch (err) {
-                alert("Error: " + err.message);
+                log.innerText = data.candidates[0].content.parts[0].text;
+            } catch (e) {
+                log.innerText = "Error: Check your API Key or connection.";
             }
         }
     </script>
