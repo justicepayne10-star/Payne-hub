@@ -53,27 +53,38 @@
 <input type="file" id="cameraInput" hidden accept="image/*" capture="environment">
 
 <script>
-    async function ask() {
-        const key = document.getElementById('apiKey').value;
-        const text = document.getElementById('prompt').value;
-        const log = document.getElementById('chatLog');
+   async function ask() {
+    const key = document.getElementById('apiKey').value;
+    const text = document.getElementById('prompt').value;
+    const log = document.getElementById('chatLog');
+    
+    log.innerHTML += `<p><b>You:</b> ${text}</p>`;
+    
+    // We will use 'gemini-1.5-flash' - ensure this is the model enabled in your Google AI Studio project
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
+    
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ contents: [{ parts: [{ text: text }] }] })
+        });
         
-        log.innerHTML += `<p><b>You:</b> ${text}</p>`;
+        const data = await response.json();
         
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
-        
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ contents: [{ parts: [{ text: text }] }] })
-            });
-            const data = await response.json();
-            log.innerHTML += `<p><b>AI:</b> ${data.candidates[0].content.parts[0].text}</p>`;
-        } catch (e) {
-            log.innerHTML += `<p style="color:red;">Error: ${e.message}</p>`;
+        // This 'if' check prevents the "Cannot read property '0'" error
+        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+            const aiText = data.candidates[0].content.parts[0].text;
+            log.innerHTML += `<p><b>AI:</b> ${aiText}</p>`;
+        } else {
+            // This shows exactly what Google sent back if it wasn't a successful response
+            log.innerHTML += `<p style="color:red;"><b>Error:</b> ${JSON.stringify(data)}</p>`;
         }
+    } catch (e) {
+        log.innerHTML += `<p style="color:red;"><b>Connection Error:</b> ${e.message}</p>`;
     }
+}
+
     
     function startVoice() {
         const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
