@@ -6,21 +6,16 @@
     <title>PAYNE HUB</title>
     <style>
         body { background-color: #0d1117; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        
-        /* Title at the top */
         h1 { color: #e11d48; margin-bottom: 20px; font-size: 24px; }
-        
-        /* The main container card */
         .card { background-color: #161b22; padding: 20px; border-radius: 12px; border: 1px solid #30363d; width: 100%; max-width: 500px; }
-        
-        /* Input styling */
         input { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: white; box-sizing: border-box; }
         
-        /* The Red Send Button */
-        button { width: 100%; padding: 12px; background-color: #e11d48; border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; margin-bottom: 15px; }
+        /* New Layout for Tools */
+        .toolbar { display: flex; gap: 10px; margin-bottom: 10px; }
+        .tool-btn { background: #30363d; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; flex: 1; }
         
-        /* The output box inside the card */
-        #chatLog { padding: 15px; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; min-height: 150px; text-align: left; color: #c9d1d9; font-size: 14px; overflow-wrap: break-word; }
+        button { width: 100%; padding: 12px; background-color: #e11d48; border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; }
+        #chatLog { margin-top: 15px; padding: 15px; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; min-height: 150px; text-align: left; }
     </style>
 </head>
 <body>
@@ -29,15 +24,33 @@
 
     <div class="card">
         <input type="password" id="apiKey" placeholder="Paste API Key">
-        <input type="text" id="prompt" placeholder="HOW ARE YOU">
+        
+        <div class="toolbar">
+            <button class="tool-btn" onclick="document.getElementById('fileInput').click()">+ Image</button>
+            <input type="file" id="fileInput" hidden accept="image/*">
+            <button class="tool-btn" onclick="startVoice()">🎤 Voice</button>
+            <button class="tool-btn" onclick="document.getElementById('cameraInput').click()">📷 Camera</button>
+            <input type="file" id="cameraInput" hidden accept="image/*" capture="environment">
+        </div>
+
+        <input type="text" id="prompt" placeholder="Ask anything...">
         <button onclick="ask()">SEND</button>
-        <div id="chatLog">Error: "models/gemini-1.5-flash is not found for API version v1beta...</div>
+        <div id="chatLog">Waiting for input...</div>
     </div>
 
     <script>
-        // Placeholder logic - we will fix the connection in the next step
+        // Voice Recognition API
+        function startVoice() {
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.onresult = (event) => {
+                document.getElementById('prompt').value = event.results[0][0].transcript;
+            };
+            recognition.start();
+        }
+
         function ask() {
-            document.getElementById('chatLog').innerText = "Connecting...";
+            document.getElementById('chatLog').innerText = "Processing...";
+            // Logic to connect to API goes here
         }
     </script>
 </body>
