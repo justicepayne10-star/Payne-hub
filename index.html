@@ -1,11 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAYNE HUB</title>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; background-color: #0d1117; color: white; font-family: sans-serif; }
+        .app-wrapper { display: flex; height: 100vh; width: 100%; }
+        .sidebar { width: 250px; background: #161b22; padding: 20px; border-right: 1px solid #30363d; display: flex; flex-direction: column; gap: 20px; }
+        .sidebar-item { padding: 10px; cursor: pointer; border-radius: 6px; }
+        .sidebar-item:hover { background: #21262d; }
+        .main-content { flex-grow: 1; display: flex; flex-direction: column; }
+        #chatLog { flex-grow: 1; padding: 20px; overflow-y: auto; color: #c9d1d9; }
+        .input-area { background: #161b22; padding: 20px; border-top: 1px solid #30363d; }
+        .api-input { width: 100%; padding: 10px; margin-bottom: 10px; background: #0d1117; border: 1px solid #30363d; color: white; border-radius: 6px; }
+        .controls { display: flex; gap: 10px; margin-bottom: 10px; }
+        .tool-btn { background: #30363d; border: none; color: white; padding: 10px 15px; border-radius: 6px; cursor: pointer; }
+        .main-input-row { display: flex; gap: 10px; }
+        input[type="text"] { flex-grow: 1; padding: 12px; background: #0d1117; border: 1px solid #30363d; color: white; border-radius: 6px; }
+        button.send-btn { padding: 10px 20px; background-color: #e11d48; border: none; color: white; border-radius: 6px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="app-wrapper">
+    <div class="sidebar">
+        <div class="sidebar-item" onclick="switchView('New Chat')"><strong>+ New chat</strong></div>
+        <div class="sidebar-item" onclick="switchView('Search')">🔍 Search chats</div>
+        <div class="sidebar-item" onclick="switchView('Images')">🖼️ Images</div>
+        <div class="sidebar-item" onclick="switchView('Library')">📚 Library</div>
+    </div>
+
+    <div class="main-content">
+        <div id="chatLog">Conversation will appear here...</div>
+        <div class="input-area">
+            <input type="password" id="apiKey" class="api-input" placeholder="Paste API Key">
+            <div class="controls">
+                <button class="tool-btn">+ Image</button>
+                <button class="tool-btn">🎤 Voice</button>
+                <button class="tool-btn">📷 Camera</button>
+            </div>
+            <div class="main-input-row">
+                <input type="text" id="prompt" placeholder="Ask anything...">
+                <button class="send-btn" onclick="ask()">SEND</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    // 1. Sidebar Navigation Function
     function switchView(viewName) {
-        const log = document.getElementById('chatLog');
-        log.innerHTML = `<h3>${viewName.charAt(0).toUpperCase() + viewName.slice(1)}</h3><p>This section is currently being configured.</p>`;
+        document.getElementById('chatLog').innerHTML = `<h3>${viewName}</h3><p>This section is currently being configured.</p>`;
     }
 
-    // 2. API Communication Function
     async function ask() {
         const key = document.getElementById('apiKey').value;
         const text = document.getElementById('prompt').value;
@@ -15,7 +62,6 @@
         
         log.innerHTML += `<p><b>You:</b> ${text}</p>`;
         
-        // Using the models list endpoint to diagnose the 404 error
         const url = `https://generativelanguage.googleapis.com/v1beta/models?key=${key}`;
         
         try {
@@ -23,13 +69,11 @@
             const data = await response.json();
             
             if (data.models) {
-                // SUCCESS: Displays what your key can actually access
                 const models = data.models.map(m => m.name).join(', ');
-                log.innerHTML += `<p style="color:green;"><b>Connected! Available Models:</b> ${models}</p>`;
-                log.innerHTML += `<p>Copy one of these names and use it in your URL.</p>`;
+                log.innerHTML += `<p style="color:green;"><b>Connected!</b> Available models found. Check console for list.</p>`;
+                console.log("Available models:", models);
             } else {
-                // FAILURE: Displays the exact error from Google
-                log.innerHTML += `<p style="color:red;"><b>Error:</b> ${JSON.stringify(data.error?.message || data)}</p>`;
+                log.innerHTML += `<p style="color:red;"><b>Error:</b> ${data.error?.message || "Unknown error"}</p>`;
             }
         } catch (e) {
             log.innerHTML += `<p style="color:red;"><b>Connection Error:</b> ${e.message}</p>`;
