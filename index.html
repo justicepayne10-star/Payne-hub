@@ -52,7 +52,7 @@
         document.getElementById('chatLog').innerHTML = `<h3>${viewName}</h3><p>This section is currently being configured.</p>`;
     }
 
-    async function ask() {
+       async function ask() {
         const key = document.getElementById('apiKey').value;
         const text = document.getElementById('prompt').value;
         const log = document.getElementById('chatLog');
@@ -62,7 +62,8 @@
         
         log.innerHTML += `<p><b>You:</b> ${text}</p>`;
         
-        const model = 'models/gemini-2.0-flash'; 
+        // Using the lighter, faster model to avoid quota errors
+        const model = 'models/gemini-1.5-flash-8b'; 
         const url = `https://generativelanguage.googleapis.com/v1beta/${model}:generateContent?key=${key}`;
         
         try {
@@ -86,7 +87,7 @@
         
         log.scrollTop = log.scrollHeight;
     }
+
 </script>
 </body>
 </html>
-html>
