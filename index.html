@@ -62,10 +62,10 @@
     
     log.innerHTML += `<p><b>You:</b> ${text}</p>`;
     
-    // Updated URL construction
-    const model = 'gemini-1.5-flash';
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
-    
+    // Change these lines in your ask() function:
+const model = 'gemini-1.5-flash'; 
+const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+
     try {
         const response = await fetch(url, {
             method: 'POST',
