@@ -62,8 +62,9 @@
         
         log.innerHTML += `<p><b>You:</b> ${text}</p>`;
         
-        // Using the lighter, faster model to avoid quota errors
-        const model = 'models/gemini-1.5-flash-8b'; 
+        // Remove the 'models/' prefix and use the standard ID
+const model = 'gemini-1.5-flash'; 
+
         const url = `https://generativelanguage.googleapis.com/v1beta/${model}:generateContent?key=${key}`;
         
         try {
