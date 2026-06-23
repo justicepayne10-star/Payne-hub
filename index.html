@@ -52,42 +52,41 @@
         document.getElementById('chatLog').innerHTML = `<h3>${viewName}</h3><p>This section is currently being configured.</p>`;
     }
 
-       async function ask() {
-        const key = document.getElementById('apiKey').value;
-        const text = document.getElementById('prompt').value;
-        const log = document.getElementById('chatLog');
+     async function ask() {
+    const key = document.getElementById('apiKey').value;
+    const text = document.getElementById('prompt').value;
+    const log = document.getElementById('chatLog');
+    
+    if (!key) { alert("Please enter your API Key!"); return; }
+    if (!text) { alert("Please type a message!"); return; }
+    
+    log.innerHTML += `<p><b>You:</b> ${text}</p>`;
+    
+    // Updated URL construction
+    const model = 'gemini-1.5-flash';
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+    
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: text }] }] })
+        });
         
-        if (!key) { alert("Please enter your API Key!"); return; }
-        if (!text) { alert("Please type a message!"); return; }
+        const data = await response.json();
         
-        log.innerHTML += `<p><b>You:</b> ${text}</p>`;
-        
-        // Remove the 'models/' prefix and use the standard ID
-const model = 'gemini-1.5-flash'; 
-
-        const url = `https://generativelanguage.googleapis.com/v1beta/${model}:generateContent?key=${key}`;
-        
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts: [{ text: text }] }] })
-            });
-            
-            const data = await response.json();
-            
-            if (data.candidates && data.candidates[0].content) {
-                const aiReply = data.candidates[0].content.parts[0].text;
-                log.innerHTML += `<p><b>AI:</b> ${aiReply}</p>`;
-            } else {
-                log.innerHTML += `<p style="color:red;"><b>Error:</b> ${data.error?.message || "Check your API key/Model name"}</p>`;
-            }
-        } catch (e) {
-            log.innerHTML += `<p style="color:red;"><b>Connection Error:</b> ${e.message}</p>`;
+        if (data.candidates && data.candidates[0].content) {
+            const aiReply = data.candidates[0].content.parts[0].text;
+            log.innerHTML += `<p><b>AI:</b> ${aiReply}</p>`;
+        } else if (data.error) {
+            log.innerHTML += `<p style="color:red;"><b>API Error:</b> ${data.error.message}</p>`;
         }
-        
-        log.scrollTop = log.scrollHeight;
+    } catch (e) {
+        log.innerHTML += `<p style="color:red;"><b>Connection Error:</b> ${e.message}</p>`;
     }
+    
+    log.scrollTop = log.scrollHeight;
+}
 
 </script>
 </body>
